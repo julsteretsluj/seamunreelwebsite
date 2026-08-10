@@ -27,11 +27,11 @@ const FLASH_HALF = 5;
 
 /** Compact overlapping portrait stack for bottom-right badge */
 const CORNER_PORTRAITS = [
-  { x: -52, y: 10, z: 1, rot: -12, size: 72 },
-  { x: -28, y: -4, z: 2, rot: -5, size: 78 },
-  { x: 0, y: -12, z: 3, rot: 0, size: 86 },
-  { x: 28, y: -4, z: 2, rot: 5, size: 78 },
-  { x: 52, y: 10, z: 1, rot: 12, size: 72 },
+  { x: -44, y: 8, z: 1, rot: -10, size: 64 },
+  { x: -22, y: -2, z: 2, rot: -4, size: 70 },
+  { x: 0, y: -10, z: 3, rot: 0, size: 78 },
+  { x: 22, y: -2, z: 2, rot: 4, size: 70 },
+  { x: 44, y: 8, z: 1, rot: 10, size: 64 },
 ];
 
 type SpotlightCardProps = {
