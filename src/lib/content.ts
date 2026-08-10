@@ -5,6 +5,8 @@ export type CommitteeSpotlight = {
   logo: string;
   /** Concise topic labels derived from official seamun.com agendas */
   topics: string[];
+  /** Optional feature art shown in the spotlight scene */
+  featureArt?: string;
 };
 
 /** All 10 committees — official topics shortened for video readability */
@@ -78,6 +80,7 @@ export const ALL_COMMITTEES: CommitteeSpotlight[] = [
     acronym: "FWC",
     name: "Fantasy World Committee (Crisis)",
     logo: "assets/committee-logos/fwc.png",
+    featureArt: "assets/committees/fwc-demogorgon.png",
     topics: [
       "Psychic Child Experimentation & Protection",
       "Weaponization of the Human Mind",
