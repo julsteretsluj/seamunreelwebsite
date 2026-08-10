@@ -1,0 +1,171 @@
+import React from "react";
+import { AbsoluteFill, Img, staticFile, useCurrentFrame } from "remotion";
+import { COLORS, FONT, SAFE } from "../lib/constants";
+import { BRAND } from "../lib/content";
+import { fadeUp, scaleFade } from "../lib/motion";
+import { GlassPanel, GlassPill } from "../components/GlassPanel";
+import { PartnershipPill } from "../components/PartnershipPill";
+
+/** Scene 1 — Opening (0–2.5s) */
+export const OpeningScene: React.FC = () => {
+  const frame = useCurrentFrame();
+
+  const partner = fadeUp(frame, 2, 12, 24);
+  const brand = fadeUp(frame, 8, 14, 42);
+  const brandScale = scaleFade(frame, 8, 14, 0.96);
+  const meta = fadeUp(frame, 20, 14, 36);
+  const pills = fadeUp(frame, 28, 14, 30);
+
+  return (
+    <AbsoluteFill
+      style={{
+        paddingTop: SAFE.top,
+        paddingBottom: SAFE.bottom,
+        paddingLeft: SAFE.side,
+        paddingRight: SAFE.side + SAFE.rightExtra,
+        boxSizing: "border-box",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        fontFamily: FONT,
+      }}
+    >
+      <div style={{ ...partner, marginTop: 8 }}>
+        <PartnershipPill />
+      </div>
+
+      <div
+        style={{
+          marginTop: 48,
+          width: "100%",
+          ...brand,
+          transform: `${brand.transform} ${brandScale.transform}`,
+          opacity: Math.min(brand.opacity, brandScale.opacity),
+        }}
+      >
+        <GlassPanel
+          radius={32}
+          style={{
+            padding: "36px 32px",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            textAlign: "center",
+          }}
+        >
+          <Img
+            src={staticFile(BRAND.logo)}
+            style={{
+              width: 168,
+              height: 168,
+              objectFit: "contain",
+              marginBottom: 22,
+              filter: "drop-shadow(0 4px 18px rgba(255,255,255,0.28))",
+            }}
+          />
+          <div
+            style={{
+              color: COLORS.white,
+              fontSize: 64,
+              fontWeight: 800,
+              letterSpacing: "0.04em",
+              lineHeight: 1.05,
+              textShadow: "0 2px 14px rgba(0,0,0,0.45)",
+            }}
+          >
+            {BRAND.title}
+          </div>
+          <div
+            style={{
+              marginTop: 14,
+              color: COLORS.ice,
+              fontSize: 28,
+              fontWeight: 500,
+              letterSpacing: "0.02em",
+            }}
+          >
+            {BRAND.tagline}
+          </div>
+        </GlassPanel>
+      </div>
+
+      <div
+        style={{
+          marginTop: 28,
+          width: "100%",
+          display: "flex",
+          gap: 16,
+          ...meta,
+        }}
+      >
+        <GlassPanel
+          radius={22}
+          style={{ flex: 1, padding: "22px 20px", textAlign: "center" }}
+        >
+          <div
+            style={{
+              color: COLORS.iceMuted,
+              fontSize: 14,
+              fontWeight: 700,
+              letterSpacing: "0.16em",
+              marginBottom: 10,
+            }}
+          >
+            DATES
+          </div>
+          <div
+            style={{
+              color: COLORS.white,
+              fontSize: 24,
+              fontWeight: 700,
+              letterSpacing: "-0.01em",
+            }}
+          >
+            {BRAND.dates}
+          </div>
+        </GlassPanel>
+        <GlassPanel
+          radius={22}
+          style={{ flex: 1, padding: "22px 20px", textAlign: "center" }}
+        >
+          <div
+            style={{
+              color: COLORS.iceMuted,
+              fontSize: 14,
+              fontWeight: 700,
+              letterSpacing: "0.16em",
+              marginBottom: 10,
+            }}
+          >
+            LOCATION
+          </div>
+          <div
+            style={{
+              color: COLORS.white,
+              fontSize: 24,
+              fontWeight: 700,
+              letterSpacing: "-0.01em",
+              lineHeight: 1.25,
+            }}
+          >
+            {BRAND.location}
+          </div>
+        </GlassPanel>
+      </div>
+
+      <div
+        style={{
+          marginTop: 26,
+          display: "flex",
+          gap: 12,
+          flexWrap: "wrap",
+          justifyContent: "center",
+          ...pills,
+        }}
+      >
+        <GlassPill>{BRAND.website}</GlassPill>
+        <GlassPill style={{ fontSize: 18 }}>{BRAND.email}</GlassPill>
+      </div>
+    </AbsoluteFill>
+  );
+};

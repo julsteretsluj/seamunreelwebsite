@@ -1,0 +1,25 @@
+{
+  "name": "seamun-i-2027-reel",
+  "version": "1.0.0",
+  "private": true,
+  "description": "SEAMUN I 2027 Instagram Reel — editable Remotion composition",
+  "scripts": {
+    "start": "remotion studio src/index.ts",
+    "studio": "remotion studio src/index.ts",
+    "build": "remotion bundle src/index.ts",
+    "render": "remotion render src/index.ts SeamunReel out/seamun-i-2027-reel.mp4",
+    "render:preview": "remotion still src/index.ts SeamunReel out/preview-frame.png --frame=90"
+  },
+  "dependencies": {
+    "@remotion/cli": "^4.0.507",
+    "@remotion/media-utils": "^4.0.507",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "remotion": "^4.0.507"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "typescript": "^5.8.0"
+  }
+}
