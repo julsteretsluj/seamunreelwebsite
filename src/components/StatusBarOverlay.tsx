@@ -15,41 +15,41 @@ export const StatusBarOverlay: React.FC = () => (
       zIndex: 60,
     }}
   >
-    <div
-      style={{
-        position: "absolute",
-        top: BAR_TOP,
-        left: 36,
-        right: 36,
-        height: 60,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        fontFamily: FONT,
-      }}
-    >
       <div
         style={{
-          color: COLORS.white,
-          fontSize: 36,
-          fontWeight: 700,
-          letterSpacing: "0.01em",
-          lineHeight: 1,
-          textShadow: "0 2px 10px rgba(0,0,0,0.5)",
-          minWidth: 96,
+          position: "absolute",
+          top: BAR_TOP,
+          left: 32,
+          right: 32,
+          height: 60,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          fontFamily: FONT,
         }}
       >
-        16:17
+        <div
+          style={{
+            color: COLORS.white,
+            fontSize: 44,
+            fontWeight: 700,
+            letterSpacing: "0.01em",
+            lineHeight: 1,
+            textShadow: "0 2px 10px rgba(0,0,0,0.5)",
+            minWidth: 110,
+          }}
+        >
+          16:17
+        </div>
+        <Img
+          src={staticFile(STATUS_ICONS)}
+          style={{
+            height: 42,
+            width: "auto",
+            objectFit: "contain",
+            filter: "drop-shadow(0 2px 8px rgba(0,0,0,0.45))",
+          }}
+        />
       </div>
-      <Img
-        src={staticFile(STATUS_ICONS)}
-        style={{
-          height: 34,
-          width: "auto",
-          objectFit: "contain",
-          filter: "drop-shadow(0 2px 8px rgba(0,0,0,0.45))",
-        }}
-      />
-    </div>
   </AbsoluteFill>
 );
