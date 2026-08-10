@@ -1,8 +1,8 @@
 import React from "react";
-import { AbsoluteFill, useCurrentFrame } from "remotion";
+import { AbsoluteFill, useCurrentFrame, useVideoConfig } from "remotion";
 import { COLORS, FONT, SAFE } from "../lib/constants";
 import { ALL_COMMITTEES } from "../lib/content";
-import { fadeUp, scaleFade } from "../lib/motion";
+import { fadeUp, springPop } from "../lib/motion";
 import { GlassPanel } from "../components/GlassPanel";
 import { PartnershipPill } from "../components/PartnershipPill";
 import { CommitteeLogo } from "../components/CommitteeLogo";
@@ -10,6 +10,7 @@ import { CommitteeLogo } from "../components/CommitteeLogo";
 /** Scene 2 — All 10 committees */
 export const CommitteesScene: React.FC = () => {
   const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
   const title = fadeUp(frame, 4, 12, 36);
   const partner = fadeUp(frame, 0, 10, 20);
 
@@ -63,8 +64,7 @@ export const CommitteesScene: React.FC = () => {
             }}
           >
             {ALL_COMMITTEES.map((c, i) => {
-              const start = 4 + i * 2;
-              const anim = scaleFade(frame, start, 10, 0.9);
+              const anim = springPop(frame, fps, 4 + i * 2, 0.82);
               return (
                 <div
                   key={c.id}

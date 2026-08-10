@@ -1,5 +1,10 @@
 import React from "react";
-import { AbsoluteFill, Sequence, useCurrentFrame } from "remotion";
+import {
+  AbsoluteFill,
+  Sequence,
+  useCurrentFrame,
+  useVideoConfig,
+} from "remotion";
 import {
   COLORS,
   COMMITTEE_SPOTLIGHT_SECONDS,
@@ -8,12 +13,12 @@ import {
   SAFE,
 } from "../lib/constants";
 import { ALL_COMMITTEES } from "../lib/content";
-import { fadeUp, scaleFade, swipeTransition } from "../lib/motion";
+import { deckSwipe, fadeUpBlur, springPop } from "../lib/motion";
 import { GlassPanel } from "../components/GlassPanel";
 import { CommitteeLogo } from "../components/CommitteeLogo";
 
-const SLOT = Math.round(COMMITTEE_SPOTLIGHT_SECONDS * FPS); // 3s hold
-const TRANSITION = 10;
+const SLOT = Math.round(COMMITTEE_SPOTLIGHT_SECONDS * FPS);
+const TRANSITION = 14;
 
 type SpotlightCardProps = {
   index: number;
@@ -21,25 +26,27 @@ type SpotlightCardProps = {
 
 const SpotlightCard: React.FC<SpotlightCardProps> = ({ index }) => {
   const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
   const c = ALL_COMMITTEES[index];
   const isFirst = index === 0;
+
   const enter = isFirst
-    ? fadeUp(frame, 2, 10, 28)
-    : swipeTransition(frame, 0, TRANSITION, "in", 90);
-  const emblem = scaleFade(frame, isFirst ? 4 : 3, 10, 0.92);
-  const name = fadeUp(frame, isFirst ? 10 : 8, 10, 24);
-  const t1 = fadeUp(frame, isFirst ? 16 : 14, 10, 20);
-  const t2 = fadeUp(frame, isFirst ? 22 : 20, 10, 20);
+    ? fadeUpBlur(frame, 2, 12, 40)
+    : deckSwipe(frame, 0, TRANSITION, "in");
+
+  const emblem = springPop(frame, fps, isFirst ? 6 : 4, 0.84);
+  const name = fadeUpBlur(frame, isFirst ? 12 : 10, 11, 28);
+  const t1 = fadeUpBlur(frame, isFirst ? 20 : 16, 11, 22);
+  const t2 = fadeUpBlur(frame, isFirst ? 28 : 24, 11, 22);
 
   const exitStart = SLOT - TRANSITION - 1;
   const shouldExit = index < ALL_COMMITTEES.length - 1;
   const exit = shouldExit
-    ? swipeTransition(frame, exitStart, TRANSITION, "out", 90)
-    : { opacity: 1, transform: "translateX(0px)" };
+    ? deckSwipe(frame, exitStart, TRANSITION, "out")
+    : { opacity: 1, transform: "none", filter: "none" };
 
-  const combinedOpacity = Math.min(enter.opacity, exit.opacity);
-  const transform =
-    frame >= exitStart && shouldExit ? exit.transform : enter.transform;
+  const inExit = frame >= exitStart && shouldExit;
+  const motion = inExit ? exit : enter;
 
   return (
     <AbsoluteFill
@@ -54,8 +61,8 @@ const SpotlightCard: React.FC<SpotlightCardProps> = ({ index }) => {
         alignItems: "center",
         justifyContent: "center",
         fontFamily: FONT,
-        opacity: combinedOpacity,
-        transform,
+        willChange: "transform, opacity, filter",
+        ...motion,
       }}
     >
       <GlassPanel
@@ -134,7 +141,7 @@ const SpotlightCard: React.FC<SpotlightCardProps> = ({ index }) => {
   );
 };
 
-/** Scene 3 — All 10 committee spotlights with swipe transitions */
+/** Scene 3 — Committee spotlights with perspective deck-swipe transitions */
 export const SpotlightsScene: React.FC = () => {
   return (
     <AbsoluteFill>

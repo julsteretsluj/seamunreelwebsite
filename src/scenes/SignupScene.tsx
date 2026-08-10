@@ -1,8 +1,14 @@
 import React from "react";
-import { AbsoluteFill, Img, staticFile, useCurrentFrame } from "remotion";
+import {
+  AbsoluteFill,
+  Img,
+  staticFile,
+  useCurrentFrame,
+  useVideoConfig,
+} from "remotion";
 import { COLORS, FONT, SAFE } from "../lib/constants";
 import { SignupScene as SignupData } from "../lib/content";
-import { fadeUp, scaleFade, swipeTransition } from "../lib/motion";
+import { fadeUp, swipeTransition, springPop, fadeUpBlur } from "../lib/motion";
 import { DueDateNotification } from "../components/DueDateNotification";
 import { GlassPanel } from "../components/GlassPanel";
 
@@ -15,12 +21,13 @@ type Props = {
 /** Shared Delegate / Chair / Advisor signup layout */
 export const SignupScene: React.FC<Props> = ({ data, swipeIn = true }) => {
   const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
   const enter = swipeIn
-    ? swipeTransition(frame, 0, 12, "in", 80)
-    : fadeUp(frame, 0, 12, 28);
-  const headline = fadeUp(frame, 4, 10, 28);
+    ? swipeTransition(frame, 0, 14, "in", 120)
+    : fadeUpBlur(frame, 0, 14, 40);
+  const headline = fadeUpBlur(frame, 4, 11, 30);
   const notifStart = 10;
-  const qr = scaleFade(frame, 22, 12, 0.94);
+  const qr = springPop(frame, fps, 22, 0.9);
   const support = fadeUp(frame, 34, 10, 20);
 
   return (

@@ -1,13 +1,14 @@
 import React from "react";
-import { AbsoluteFill, Img, staticFile, useCurrentFrame } from "remotion";
+import { AbsoluteFill, Img, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
 import { COLORS, FONT, SAFE } from "../lib/constants";
 import { TEAM } from "../lib/content";
-import { fadeUp, scaleFade } from "../lib/motion";
+import { fadeUp, springPop } from "../lib/motion";
 import { GlassPanel } from "../components/GlassPanel";
 
 /** Scene 4 — Our Team (secretariat leadership) */
 export const TeamScene: React.FC = () => {
   const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
   const title = fadeUp(frame, 2, 12, 32);
 
   return (
@@ -57,7 +58,7 @@ export const TeamScene: React.FC = () => {
             }}
           >
             {TEAM.map((member, i) => {
-              const anim = scaleFade(frame, 2 + i, 8, 0.9);
+              const anim = springPop(frame, fps, 2 + i, 0.82);
               return (
                 <div
                   key={member.name}
