@@ -119,12 +119,22 @@ export const SignupScene: React.FC<Props> = ({
           alignItems: "center",
         }}
       >
-        <div style={{ ...qrPulse, position: "relative" }}>
-          {/* Glow frame — inset keeps equal padding on all sides */}
+        <div
+          style={{
+            ...qrPulse,
+            position: "relative",
+            width: 400,
+            height: 400,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            transformOrigin: "center center",
+          }}
+        >
           <div
             style={{
               position: "absolute",
-              inset: -20,
+              inset: 0,
               borderRadius: 36,
               border: `2.5px solid ${data.accent}`,
               opacity: Math.max(0, ring),
@@ -140,18 +150,16 @@ export const SignupScene: React.FC<Props> = ({
               overflow: "hidden",
               background: "#ffffff",
               boxShadow: "0 12px 40px rgba(0,0,0,0.35)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
+              flexShrink: 0,
             }}
           >
             <Img
               src={staticFile(data.qr)}
               style={{
-                width: "100%",
-                height: "100%",
+                width: 360,
+                height: 360,
                 objectFit: "cover",
-                objectPosition: "center",
+                objectPosition: "center center",
                 display: "block",
               }}
             />
