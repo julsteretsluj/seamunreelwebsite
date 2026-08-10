@@ -94,6 +94,8 @@ export const ALL_COMMITTEES: CommitteeSpotlight[] = [
     acronym: "DISEC",
     name: "Disarmament & Int'l Security",
     logo: "assets/committee-logos/disec.png",
+    featureArt: "assets/committees/disec-mp5.png",
+    featureArtLayout: "landscape",
     topics: [
       "Cross-Border Weapons Transport",
       "Preventing Arms Diversion",
