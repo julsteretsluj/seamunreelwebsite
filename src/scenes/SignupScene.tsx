@@ -122,48 +122,27 @@ export const SignupScene: React.FC<Props> = ({
         <div
           style={{
             ...qrPulse,
-            position: "relative",
-            width: 400,
-            height: 400,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
+            width: 360,
+            height: 360,
+            borderRadius: 28,
+            overflow: "hidden",
+            background: "#ffffff",
+            border: `3px solid ${data.accent}`,
+            boxShadow: `0 12px 40px rgba(0,0,0,0.35), 0 0 ${Math.round(16 + ring * 20)}px ${data.accent}88`,
             transformOrigin: "center center",
+            boxSizing: "border-box",
           }}
         >
-          <div
+          <Img
+            src={staticFile(data.qr)}
             style={{
-              position: "absolute",
-              inset: 0,
-              borderRadius: 36,
-              border: `2.5px solid ${data.accent}`,
-              opacity: Math.max(0, ring),
-              boxShadow: `0 0 28px ${data.accent}55`,
-              pointerEvents: "none",
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              objectPosition: "center center",
+              display: "block",
             }}
           />
-          <div
-            style={{
-              width: 360,
-              height: 360,
-              borderRadius: 28,
-              overflow: "hidden",
-              background: "#ffffff",
-              boxShadow: "0 12px 40px rgba(0,0,0,0.35)",
-              flexShrink: 0,
-            }}
-          >
-            <Img
-              src={staticFile(data.qr)}
-              style={{
-                width: 360,
-                height: 360,
-                objectFit: "cover",
-                objectPosition: "center center",
-                display: "block",
-              }}
-            />
-          </div>
         </div>
       </div>
 
