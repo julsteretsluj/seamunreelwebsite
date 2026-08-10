@@ -9,6 +9,8 @@ export type CommitteeSpotlight = {
   featureArt?: string;
   /** Portrait (tall figure) vs landscape (card / banner) feature framing */
   featureArtLayout?: "portrait" | "landscape";
+  /** When true, skip the small logo under the feature (logo already in the art) */
+  featureArtContainsLogo?: boolean;
 };
 
 /** All 10 committees — official topics shortened for video readability */
@@ -39,6 +41,9 @@ export const ALL_COMMITTEES: CommitteeSpotlight[] = [
     acronym: "UNHRC",
     name: "Human Rights Council",
     logo: "assets/committee-logos/unhrc.png",
+    featureArt: "assets/committees/unhrc-seal.png",
+    featureArtLayout: "portrait",
+    featureArtContainsLogo: true,
     topics: [
       "Death Penalty Regulation & Application",
       "Preventing Cruel Treatment in Judicial Systems",

@@ -34,6 +34,7 @@ const SpotlightCard: React.FC<SpotlightCardProps> = ({ index }) => {
   const isFirst = index === 0;
   const hasFeature = Boolean(c.featureArt);
   const isLandscape = c.featureArtLayout === "landscape";
+  const showEmblemUnderFeature = hasFeature && !c.featureArtContainsLogo;
   const compact = hasFeature;
 
   const enter = isFirst
@@ -125,8 +126,8 @@ const SpotlightCard: React.FC<SpotlightCardProps> = ({ index }) => {
                       filter: "drop-shadow(0 14px 32px rgba(0,0,0,0.45))",
                     }
                   : {
-                      width: 300,
-                      height: 380,
+                      width: 320,
+                      height: c.featureArtContainsLogo ? 320 : 380,
                       objectFit: "contain",
                       position: "relative",
                       filter: "drop-shadow(0 12px 28px rgba(0,0,0,0.55))",
@@ -150,7 +151,7 @@ const SpotlightCard: React.FC<SpotlightCardProps> = ({ index }) => {
             gap: 8,
           }}
         >
-          {hasFeature ? (
+          {showEmblemUnderFeature ? (
             <div style={emblem}>
               <CommitteeLogo src={c.logo} size={72} pad={8} />
             </div>
