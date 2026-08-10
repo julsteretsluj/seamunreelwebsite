@@ -4,6 +4,9 @@ import { SAFE } from "../lib/constants";
 import { fadeUp, floatBob } from "../lib/motion";
 import { PartnershipPill } from "./PartnershipPill";
 
+/** Match StatusBarOverlay vertical alignment */
+const BAR_TOP = Math.max(48, SAFE.top - 56);
+
 /** Persistent D-PREP partnership badge — visible on every frame */
 export const PartnershipOverlay: React.FC = () => {
   const frame = useCurrentFrame();
@@ -21,10 +24,12 @@ export const PartnershipOverlay: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: Math.max(48, SAFE.top - 56),
+          top: BAR_TOP,
           left: 0,
           right: 0,
+          height: 60,
           display: "flex",
+          alignItems: "center",
           justifyContent: "center",
           ...enter,
         }}
