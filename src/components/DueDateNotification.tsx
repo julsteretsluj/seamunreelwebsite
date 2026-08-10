@@ -26,62 +26,55 @@ export const DueDateNotification: React.FC<Props> = ({
 
   return (
     <div style={{ ...motion, ...style }}>
-      <GlassPanel radius={22} style={{ padding: "18px 22px 18px 20px" }}>
+      <GlassPanel radius={22} style={{ padding: "20px 24px" }}>
         <div
           style={{
-            display: "flex",
-            alignItems: "stretch",
-            gap: 16,
+            position: "relative",
+            paddingLeft: 18,
+            fontFamily: FONT,
+            textAlign: "left",
             width: "100%",
             boxSizing: "border-box",
           }}
         >
+          {/* Accent bar — matches text block height exactly */}
           <div
             style={{
+              position: "absolute",
+              left: 0,
+              top: 2,
+              bottom: 2,
               width: 5,
               borderRadius: 3,
               background: accent,
-              flexShrink: 0,
-              alignSelf: "stretch",
               boxShadow: `0 0 12px ${accent}66`,
             }}
           />
           <div
             style={{
-              flex: 1,
-              fontFamily: FONT,
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              textAlign: "left",
-              minWidth: 0,
+              color: accent,
+              fontSize: 16,
+              fontWeight: 800,
+              letterSpacing: "0.12em",
+              textTransform: "uppercase",
+              marginBottom: 6,
+              lineHeight: 1.2,
+              textShadow: "0 1px 6px rgba(0,0,0,0.45)",
             }}
           >
-            <div
-              style={{
-                color: accent,
-                fontSize: 16,
-                fontWeight: 800,
-                letterSpacing: "0.12em",
-                textTransform: "uppercase",
-                marginBottom: 6,
-                textShadow: "0 1px 6px rgba(0,0,0,0.45)",
-              }}
-            >
-              {label}
-            </div>
-            <div
-              style={{
-                color: COLORS.white,
-                fontSize: 27,
-                fontWeight: 700,
-                lineHeight: 1.25,
-                letterSpacing: "-0.02em",
-                textShadow: TEXT_SHADOW_STRONG,
-              }}
-            >
-              {detail}
-            </div>
+            {label}
+          </div>
+          <div
+            style={{
+              color: COLORS.white,
+              fontSize: 27,
+              fontWeight: 700,
+              lineHeight: 1.25,
+              letterSpacing: "-0.02em",
+              textShadow: TEXT_SHADOW_STRONG,
+            }}
+          >
+            {detail}
           </div>
         </div>
       </GlassPanel>
