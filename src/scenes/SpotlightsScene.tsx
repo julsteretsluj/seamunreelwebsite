@@ -3,6 +3,7 @@ import {
   AbsoluteFill,
   Img,
   Sequence,
+  interpolate,
   staticFile,
   useCurrentFrame,
   useVideoConfig,
@@ -22,6 +23,8 @@ import { CommitteeLogo } from "../components/CommitteeLogo";
 
 const SLOT = Math.round(COMMITTEE_SPOTLIGHT_SECONDS * FPS);
 const TRANSITION = 10;
+/** Frames per color before swapping (police-light pace) */
+const FLASH_HALF = 5;
 
 /** Staggered offsets for a 5-portrait arc collage */
 const PORTRAIT_LAYOUT = [
@@ -42,8 +45,10 @@ const SpotlightCard: React.FC<SpotlightCardProps> = ({ index }) => {
   const c = ALL_COMMITTEES[index];
   const isFirst = index === 0;
   const portraits = c.featurePortraits ?? [];
+  const flashPair = c.featureFlashPair;
   const hasPortraits = portraits.length > 0;
-  const hasFeature = Boolean(c.featureArt) || hasPortraits;
+  const hasFlash = Boolean(flashPair);
+  const hasFeature = Boolean(c.featureArt) || hasPortraits || hasFlash;
   const isLandscape = c.featureArtLayout === "landscape";
   const showEmblemUnderFeature = hasFeature && !c.featureArtContainsLogo;
   const compact = hasFeature;
@@ -66,6 +71,21 @@ const SpotlightCard: React.FC<SpotlightCardProps> = ({ index }) => {
 
   const inExit = frame >= exitStart && shouldExit;
   const motion = inExit ? exit : enter;
+
+  // Hard-cut flash mapped onto the same footprint (blue ↔ red)
+  const flashPhase = Math.floor(frame / FLASH_HALF) % 2;
+  const blueOn = hasFlash && flashPhase === 0;
+  const flashGlow = hasFlash
+    ? blueOn
+      ? "radial-gradient(circle, rgba(40,120,255,0.55) 0%, rgba(40,120,255,0.12) 42%, transparent 70%)"
+      : "radial-gradient(circle, rgba(255,40,50,0.55) 0%, rgba(255,40,50,0.12) 42%, transparent 70%)"
+    : undefined;
+  const flashPulse = hasFlash
+    ? interpolate(frame % FLASH_HALF, [0, 1, FLASH_HALF - 1], [1.04, 1, 0.98], {
+        extrapolateLeft: "clamp",
+        extrapolateRight: "clamp",
+      })
+    : 1;
 
   return (
     <AbsoluteFill
@@ -96,7 +116,66 @@ const SpotlightCard: React.FC<SpotlightCardProps> = ({ index }) => {
           textAlign: "center",
         }}
       >
-        {hasPortraits ? (
+        {hasFlash && flashPair ? (
+          <div
+            style={{
+              ...feature,
+              position: "relative",
+              width: "100%",
+              height: 340,
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              marginBottom: 8,
+            }}
+          >
+            <div
+              style={{
+                position: "absolute",
+                width: 360,
+                height: 360,
+                borderRadius: "50%",
+                background: flashGlow,
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -48%)",
+                pointerEvents: "none",
+              }}
+            />
+            <div
+              style={{
+                position: "relative",
+                width: 280,
+                height: 340,
+                transform: `scale(${flashPulse})`,
+                filter: "drop-shadow(0 12px 28px rgba(0,0,0,0.55))",
+              }}
+            >
+              <Img
+                src={staticFile(flashPair[0])}
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "contain",
+                  opacity: blueOn ? 1 : 0,
+                }}
+              />
+              <Img
+                src={staticFile(flashPair[1])}
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "contain",
+                  opacity: blueOn ? 0 : 1,
+                }}
+              />
+            </div>
+          </div>
+        ) : hasPortraits ? (
           <div
             style={{
               ...feature,

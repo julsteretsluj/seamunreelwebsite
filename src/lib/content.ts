@@ -13,6 +13,8 @@ export type CommitteeSpotlight = {
   featureArtContainsLogo?: boolean;
   /** Multiple circular portraits shown as a feature collage */
   featurePortraits?: string[];
+  /** Two aligned assets that flash/swap onto each other (e.g. blue/red beacons) */
+  featureFlashPair?: [string, string];
 };
 
 /** All 10 committees — official topics shortened for video readability */
@@ -118,6 +120,10 @@ export const ALL_COMMITTEES: CommitteeSpotlight[] = [
     acronym: "INTERPOL",
     name: "Int'l Criminal Police Organization",
     logo: "assets/committee-logos/interpol.png",
+    featureFlashPair: [
+      "assets/committees/interpol-beacon-blue.png",
+      "assets/committees/interpol-beacon-red.png",
+    ],
     topics: [
       "Underground Medical Markets",
       "Narcotics Trafficking — Schengen & Golden Triangle",
