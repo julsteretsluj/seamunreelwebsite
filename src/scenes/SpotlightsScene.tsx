@@ -17,9 +17,10 @@ import {
   TEXT_SHADOW_STRONG,
 } from "../lib/constants";
 import { ALL_COMMITTEES, CommitteeSpotlight } from "../lib/content";
-import { deckSwipe, fadeUpBlur, springPop } from "../lib/motion";
+import { deckSwipe, fadeUpBlur, floatBob, springPop } from "../lib/motion";
 import { GlassPanel } from "../components/GlassPanel";
 import { CommitteeLogo } from "../components/CommitteeLogo";
+import { LightSweep } from "../components/LightSweep";
 
 const SLOT = Math.round(COMMITTEE_SPOTLIGHT_SECONDS * FPS);
 const TRANSITION = 10;
@@ -56,17 +57,22 @@ const CornerFeature: React.FC<{
         extrapolateRight: "clamp",
       })
     : 1;
+  const bob = floatBob(frame, 5, 42, c.id.length * 3);
 
   return (
     <div
       style={{
-        ...featureStyle,
         position: "absolute",
         right: isLandscape ? -28 : -18,
         bottom: isLandscape ? -22 : -28,
         zIndex: 8,
         pointerEvents: "none",
         filter: "drop-shadow(0 10px 22px rgba(0,0,0,0.45))",
+        opacity: featureStyle.opacity as number | undefined,
+        transform: `${bob.transform} ${
+          typeof featureStyle.transform === "string" ? featureStyle.transform : ""
+        }`,
+        transformOrigin: "center bottom",
       }}
     >
       {flashPair ? (
@@ -184,9 +190,10 @@ const SpotlightCard: React.FC<SpotlightCardProps> = ({ index }) => {
     Boolean(c.featurePortraits?.length) ||
     Boolean(c.featureFlashPair);
 
+  const fromSide = index % 2 === 0 ? "right" : "left";
   const enter = isFirst
     ? fadeUpBlur(frame, fps, 1, 32)
-    : deckSwipe(frame, fps, 0, TRANSITION, "in");
+    : deckSwipe(frame, fps, 0, TRANSITION, "in", fromSide);
 
   const feature = springPop(frame, fps, isFirst ? 4 : 3, 0.9);
   const emblem = springPop(frame, fps, isFirst ? 2 : 1, 0.84);
@@ -197,7 +204,7 @@ const SpotlightCard: React.FC<SpotlightCardProps> = ({ index }) => {
   const exitStart = SLOT - TRANSITION - 1;
   const shouldExit = index < ALL_COMMITTEES.length - 1;
   const exit = shouldExit
-    ? deckSwipe(frame, fps, exitStart, TRANSITION, "out")
+    ? deckSwipe(frame, fps, exitStart, TRANSITION, "out", fromSide)
     : { opacity: 1, transform: "none", filter: "none" };
 
   const inExit = frame >= exitStart && shouldExit;
@@ -238,6 +245,7 @@ const SpotlightCard: React.FC<SpotlightCardProps> = ({ index }) => {
             textAlign: "center",
           }}
         >
+          <LightSweep radius={32} period={96} phase={index * 11} />
           <div
             style={{
               ...emblem,

@@ -85,7 +85,7 @@ export const SeamunReel: React.FC = () => {
         layout="none"
       >
         <SceneShell enterFrames={8} exitFrames={8}>
-          <SignupScene data={SIGNUPS[1]} swipeIn />
+          <SignupScene data={SIGNUPS[1]} swipeIn swipeFrom="left" />
         </SceneShell>
       </Sequence>
 
@@ -96,7 +96,7 @@ export const SeamunReel: React.FC = () => {
         layout="none"
       >
         <SceneShell enterFrames={8} exitFrames={8}>
-          <SignupScene data={SIGNUPS[2]} swipeIn />
+          <SignupScene data={SIGNUPS[2]} swipeIn swipeFrom="right" />
         </SceneShell>
       </Sequence>
 

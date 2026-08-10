@@ -158,6 +158,7 @@ export function swipeTransition(
 
 /**
  * Perspective card deck swipe — bounce on settle (enter).
+ * `from` = which side the card arrives from (exit goes the opposite way).
  */
 export function deckSwipe(
   frame: number,
@@ -165,15 +166,17 @@ export function deckSwipe(
   start: number,
   duration: number,
   direction: "in" | "out",
+  from: "left" | "right" = "right",
 ): CSSProperties {
   const end = start + duration;
+  const sign = from === "right" ? 1 : -1;
   if (direction === "out") {
     const opacity = interpolate(frame, [start, end], [1, 0], {
       extrapolateLeft: "clamp",
       extrapolateRight: "clamp",
       easing: easeInOut,
     });
-    const x = interpolate(frame, [start, end], [0, -160], {
+    const x = interpolate(frame, [start, end], [0, -160 * sign], {
       extrapolateLeft: "clamp",
       extrapolateRight: "clamp",
       easing: easeInOut,
@@ -188,19 +191,13 @@ export function deckSwipe(
       extrapolateRight: "clamp",
       easing: easeInOut,
     });
-    const rot = interpolate(frame, [start, end], [0, -8], {
-      extrapolateLeft: "clamp",
-      extrapolateRight: "clamp",
-      easing: easeInOut,
-    });
-    const blur = interpolate(frame, [start, end], [0, 4], {
+    const rot = interpolate(frame, [start, end], [0, -8 * sign], {
       extrapolateLeft: "clamp",
       extrapolateRight: "clamp",
       easing: easeInOut,
     });
     return {
       opacity,
-      filter: `blur(${blur}px)`,
       transform: `perspective(1200px) translate(${x}px, ${y}px) scale(${scale}) rotateY(${rot}deg)`,
       transformOrigin: "center center",
     };
@@ -211,16 +208,69 @@ export function deckSwipe(
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
-  const x = interpolate(progress, [0, 1], [160, 0]);
+  const x = interpolate(progress, [0, 1], [160 * sign, 0]);
   const y = interpolate(progress, [0, 1], [22, 0]);
   const scale = interpolate(progress, [0, 1], [0.9, 1]);
-  const rot = interpolate(progress, [0, 1], [7, 0]);
+  const rot = interpolate(progress, [0, 1], [7 * sign, 0]);
   return {
     opacity,
-    // No blur on enter — keeps committee text sharp
     transform: `perspective(1200px) translate(${x}px, ${y}px) scale(${scale}) rotateY(${rot}deg)`,
     transformOrigin: "center center",
   };
+}
+
+/** Gentle idle float — keeps corner art / badges alive */
+export function floatBob(
+  frame: number,
+  amplitude = 6,
+  period = 48,
+  phase = 0,
+): CSSProperties {
+  const t = ((frame + phase) % period) / period;
+  const y = Math.sin(t * Math.PI * 2) * amplitude;
+  const rot = Math.sin(t * Math.PI * 2 + 0.6) * 1.6;
+  return { transform: `translateY(${y}px) rotate(${rot}deg)` };
+}
+
+/** Cascade in from an offset — great for grids / avatars */
+export function cascadeIn(
+  frame: number,
+  fps: number,
+  start: number,
+  opts: { x?: number; y?: number; fromScale?: number } = {},
+): CSSProperties {
+  const { x = 0, y = 28, fromScale = 0.82 } = opts;
+  const { local, progress } = springProgress(frame, fps, start, IOS_BOUNCE_POP);
+  const opacity = interpolate(local, [0, 4], [0, 1], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+  const tx = interpolate(progress, [0, 1], [x, 0]);
+  const ty = interpolate(progress, [0, 1], [y, 0]);
+  const scale = interpolate(progress, [0, 1], [fromScale, 1]);
+  return {
+    opacity,
+    transform: `translate(${tx}px, ${ty}px) scale(${scale})`,
+    transformOrigin: "center center",
+  };
+}
+
+/** Soft breathing pulse for QR / CTAs */
+export function pulseScale(
+  frame: number,
+  start = 0,
+  period = 36,
+  amount = 0.03,
+): CSSProperties {
+  const local = Math.max(0, frame - start);
+  const t = (local % period) / period;
+  const scale = 1 + Math.sin(t * Math.PI * 2) * amount;
+  return { transform: `scale(${scale})` };
+}
+
+/** Horizontal light sweep progress 0→1 looping */
+export function lightSweepProgress(frame: number, period = 90, phase = 0) {
+  return ((frame + phase) % period) / period;
 }
 
 /**

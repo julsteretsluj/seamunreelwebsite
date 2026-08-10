@@ -2,9 +2,10 @@ import React from "react";
 import { AbsoluteFill, useCurrentFrame, useVideoConfig } from "remotion";
 import { COLORS, FONT, SAFE, TEXT_SHADOW_STRONG } from "../lib/constants";
 import { ALL_COMMITTEES } from "../lib/content";
-import { fadeUp, springPop } from "../lib/motion";
+import { cascadeIn, fadeUp } from "../lib/motion";
 import { GlassPanel } from "../components/GlassPanel";
 import { CommitteeLogo } from "../components/CommitteeLogo";
+import { LightSweep } from "../components/LightSweep";
 
 /** Scene 2 — All 10 committees */
 export const CommitteesScene: React.FC = () => {
@@ -37,6 +38,7 @@ export const CommitteesScene: React.FC = () => {
             boxSizing: "border-box",
           }}
         >
+          <LightSweep radius={30} period={110} phase={6} />
           <div
             style={{
               color: COLORS.white,
@@ -64,7 +66,13 @@ export const CommitteesScene: React.FC = () => {
             }}
           >
             {ALL_COMMITTEES.map((c, i) => {
-              const anim = springPop(frame, fps, 2 + i, 0.84);
+              const col = i % 5;
+              const row = Math.floor(i / 5);
+              const anim = cascadeIn(frame, fps, 3 + i * 1.4, {
+                x: (col - 2) * 18,
+                y: 36 + row * 10,
+                fromScale: 0.72,
+              });
               return (
                 <div
                   key={c.id}

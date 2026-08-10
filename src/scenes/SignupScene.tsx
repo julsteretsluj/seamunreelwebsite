@@ -2,33 +2,66 @@ import React from "react";
 import {
   AbsoluteFill,
   Img,
+  interpolate,
   staticFile,
   useCurrentFrame,
   useVideoConfig,
 } from "remotion";
 import { COLORS, FONT, SAFE, TEXT_SHADOW_STRONG } from "../lib/constants";
 import { SignupScene as SignupData } from "../lib/content";
-import { fadeUp, swipeTransition, springPop, fadeUpBlur } from "../lib/motion";
+import {
+  fadeUp,
+  fadeUpBlur,
+  pulseScale,
+  springPop,
+  swipeTransition,
+} from "../lib/motion";
 import { DueDateNotification } from "../components/DueDateNotification";
 import { GlassPanel } from "../components/GlassPanel";
+import { LightSweep } from "../components/LightSweep";
 
 type Props = {
   data: SignupData;
   /** Local frame offset where swipe-in begins (0 for first signup scene) */
   swipeIn?: boolean;
+  /** Alternate swipe distance / energy */
+  swipeFrom?: "left" | "right";
 };
 
 /** Shared Delegate / Chair / Advisor signup layout */
-export const SignupScene: React.FC<Props> = ({ data, swipeIn = true }) => {
+export const SignupScene: React.FC<Props> = ({
+  data,
+  swipeIn = true,
+  swipeFrom = "right",
+}) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
+  const distance = swipeFrom === "right" ? 110 : -110;
   const enter = swipeIn
-    ? swipeTransition(frame, fps, 0, "in", 100)
+    ? swipeTransition(frame, fps, 0, "in", Math.abs(distance))
     : fadeUpBlur(frame, fps, 0, 32);
+  // Flip sign for left arrivals by mirroring translate after swipe helper (always +distance)
+  const enterMotion =
+    swipeIn && swipeFrom === "left"
+      ? {
+          ...enter,
+          transform: String(enter.transform || "").replace(
+            /translateX\((-?\d+(?:\.\d+)?)px\)/,
+            (_, n) => `translateX(${-Number(n)}px)`,
+          ),
+        }
+      : enter;
+
   const headline = fadeUpBlur(frame, fps, 2, 24);
   const notifStart = 6;
-  const qr = springPop(frame, fps, 14, 0.88);
+  const qrPop = springPop(frame, fps, 14, 0.88);
+  const qrPulse = pulseScale(frame, 20, 40, 0.025);
   const support = fadeUp(frame, fps, 22, 16);
+  const ring = interpolate(
+    Math.sin(((frame - 18) / 28) * Math.PI * 2),
+    [-1, 1],
+    [0.35, 0.85],
+  );
 
   return (
     <AbsoluteFill
@@ -43,7 +76,7 @@ export const SignupScene: React.FC<Props> = ({ data, swipeIn = true }) => {
         alignItems: "center",
         justifyContent: "center",
         fontFamily: FONT,
-        ...enter,
+        ...enterMotion,
       }}
     >
       <div style={{ ...headline, width: "100%", maxWidth: 920 }}>
@@ -54,6 +87,7 @@ export const SignupScene: React.FC<Props> = ({ data, swipeIn = true }) => {
             textAlign: "center",
           }}
         >
+          <LightSweep radius={28} period={88} phase={12} />
           <div
             style={{
               color: COLORS.white,
@@ -79,22 +113,37 @@ export const SignupScene: React.FC<Props> = ({ data, swipeIn = true }) => {
       <div
         style={{
           marginTop: 36,
-          ...qr,
+          ...qrPop,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          position: "relative",
         }}
       >
-        <Img
-          src={staticFile(data.qr)}
+        <div
           style={{
-            width: 360,
-            height: 360,
-            objectFit: "contain",
-            borderRadius: 28,
-            boxShadow: "0 12px 40px rgba(0,0,0,0.35)",
+            position: "absolute",
+            width: 400,
+            height: 400,
+            borderRadius: 36,
+            border: `2px solid ${data.accent}`,
+            opacity: Math.max(0, ring),
+            boxShadow: `0 0 28px ${data.accent}55`,
+            ...qrPulse,
           }}
         />
+        <div style={qrPulse}>
+          <Img
+            src={staticFile(data.qr)}
+            style={{
+              width: 360,
+              height: 360,
+              objectFit: "contain",
+              borderRadius: 28,
+              boxShadow: "0 12px 40px rgba(0,0,0,0.35)",
+            }}
+          />
+        </div>
       </div>
 
       <div

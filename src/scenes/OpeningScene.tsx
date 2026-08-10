@@ -2,8 +2,9 @@ import React from "react";
 import { AbsoluteFill, Img, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
 import { COLORS, FONT, SAFE, TEXT_SHADOW_STRONG } from "../lib/constants";
 import { BRAND } from "../lib/content";
-import { fadeUp, scaleFade } from "../lib/motion";
+import { cascadeIn, fadeUp, scaleFade, springPop } from "../lib/motion";
 import { GlassPanel, GlassPill } from "../components/GlassPanel";
+import { LightSweep } from "../components/LightSweep";
 
 /** Scene 1 — Opening */
 export const OpeningScene: React.FC = () => {
@@ -12,8 +13,10 @@ export const OpeningScene: React.FC = () => {
 
   const brand = fadeUp(frame, fps, 3, 28);
   const brandScale = scaleFade(frame, fps, 3, 0.94);
-  const meta = fadeUp(frame, fps, 9, 24);
-  const pills = fadeUp(frame, fps, 14, 20);
+  const logo = springPop(frame, fps, 4, 0.78);
+  const metaLeft = cascadeIn(frame, fps, 10, { x: -40, y: 24, fromScale: 0.9 });
+  const metaRight = cascadeIn(frame, fps, 12, { x: 40, y: 24, fromScale: 0.9 });
+  const pills = fadeUp(frame, fps, 16, 20);
 
   return (
     <AbsoluteFill
@@ -49,16 +52,19 @@ export const OpeningScene: React.FC = () => {
             textAlign: "center",
           }}
         >
-          <Img
-            src={staticFile(BRAND.logo)}
-            style={{
-              width: 168,
-              height: 168,
-              objectFit: "contain",
-              marginBottom: 22,
-              filter: "drop-shadow(0 4px 18px rgba(255,255,255,0.28))",
-            }}
-          />
+          <LightSweep radius={32} period={90} phase={0} />
+          <div style={logo}>
+            <Img
+              src={staticFile(BRAND.logo)}
+              style={{
+                width: 168,
+                height: 168,
+                objectFit: "contain",
+                marginBottom: 22,
+                filter: "drop-shadow(0 4px 18px rgba(255,255,255,0.28))",
+              }}
+            />
+          </div>
           <div
             style={{
               color: COLORS.white,
@@ -92,62 +98,65 @@ export const OpeningScene: React.FC = () => {
           maxWidth: 920,
           display: "flex",
           gap: 16,
-          ...meta,
         }}
       >
-        <GlassPanel
-          radius={22}
-          style={{ flex: 1, padding: "22px 20px", textAlign: "center" }}
-        >
-          <div
-            style={{
-              color: COLORS.iceMuted,
-              fontSize: 14,
-              fontWeight: 700,
-              letterSpacing: "0.16em",
-              marginBottom: 10,
-            }}
+        <div style={{ ...metaLeft, flex: 1 }}>
+          <GlassPanel
+            radius={22}
+            style={{ padding: "22px 20px", textAlign: "center" }}
           >
-            DATES
-          </div>
-          <div
-            style={{
-              color: COLORS.white,
-              fontSize: 24,
-              fontWeight: 700,
-              letterSpacing: "-0.01em",
-            }}
+            <div
+              style={{
+                color: COLORS.iceMuted,
+                fontSize: 14,
+                fontWeight: 700,
+                letterSpacing: "0.16em",
+                marginBottom: 10,
+              }}
+            >
+              DATES
+            </div>
+            <div
+              style={{
+                color: COLORS.white,
+                fontSize: 24,
+                fontWeight: 700,
+                letterSpacing: "-0.01em",
+              }}
+            >
+              {BRAND.dates}
+            </div>
+          </GlassPanel>
+        </div>
+        <div style={{ ...metaRight, flex: 1 }}>
+          <GlassPanel
+            radius={22}
+            style={{ padding: "22px 20px", textAlign: "center" }}
           >
-            {BRAND.dates}
-          </div>
-        </GlassPanel>
-        <GlassPanel
-          radius={22}
-          style={{ flex: 1, padding: "22px 20px", textAlign: "center" }}
-        >
-          <div
-            style={{
-              color: COLORS.iceMuted,
-              fontSize: 14,
-              fontWeight: 700,
-              letterSpacing: "0.16em",
-              marginBottom: 10,
-            }}
-          >
-            LOCATION
-          </div>
-          <div
-            style={{
-              color: COLORS.white,
-              fontSize: 24,
-              fontWeight: 700,
-              letterSpacing: "-0.01em",
-              lineHeight: 1.25,
-            }}
-          >
-            {BRAND.location}
-          </div>
-        </GlassPanel>
+            <div
+              style={{
+                color: COLORS.iceMuted,
+                fontSize: 14,
+                fontWeight: 700,
+                letterSpacing: "0.16em",
+                marginBottom: 10,
+              }}
+            >
+              LOCATION
+            </div>
+            <div
+              style={{
+                color: COLORS.white,
+                fontSize: 24,
+                fontWeight: 700,
+                letterSpacing: "-0.01em",
+                lineHeight: 1.25,
+              }}
+            >
+              {BRAND.location}
+            </div>
+          </GlassPanel>
+        </div>
       </div>
 
       <div

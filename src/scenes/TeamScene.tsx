@@ -2,8 +2,9 @@ import React from "react";
 import { AbsoluteFill, Img, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
 import { COLORS, FONT, SAFE, TEXT_SHADOW_STRONG } from "../lib/constants";
 import { TEAM } from "../lib/content";
-import { fadeUp, springPop } from "../lib/motion";
+import { cascadeIn, fadeUp } from "../lib/motion";
 import { GlassPanel } from "../components/GlassPanel";
+import { LightSweep } from "../components/LightSweep";
 
 /** Scene 4 — Our Team (secretariat leadership) */
 export const TeamScene: React.FC = () => {
@@ -34,6 +35,7 @@ export const TeamScene: React.FC = () => {
             textAlign: "center",
           }}
         >
+          <LightSweep radius={30} period={120} phase={20} />
           <div
             style={{
               color: COLORS.white,
@@ -58,7 +60,12 @@ export const TeamScene: React.FC = () => {
             }}
           >
             {TEAM.map((member, i) => {
-              const anim = springPop(frame, fps, 1 + Math.floor(i * 0.7), 0.84);
+              const side = i % 2 === 0 ? -1 : 1;
+              const anim = cascadeIn(frame, fps, 2 + i * 1.1, {
+                x: side * 24,
+                y: 40,
+                fromScale: 0.7,
+              });
               return (
                 <div
                   key={member.name}
@@ -69,6 +76,7 @@ export const TeamScene: React.FC = () => {
                     flexDirection: "column",
                     alignItems: "center",
                     gap: 6,
+                    transformOrigin: "center center",
                   }}
                 >
                   <Img
