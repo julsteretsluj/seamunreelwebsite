@@ -16,27 +16,162 @@ import {
   SAFE,
   TEXT_SHADOW_STRONG,
 } from "../lib/constants";
-import { ALL_COMMITTEES } from "../lib/content";
+import { ALL_COMMITTEES, CommitteeSpotlight } from "../lib/content";
 import { deckSwipe, fadeUpBlur, springPop } from "../lib/motion";
 import { GlassPanel } from "../components/GlassPanel";
 import { CommitteeLogo } from "../components/CommitteeLogo";
 
 const SLOT = Math.round(COMMITTEE_SPOTLIGHT_SECONDS * FPS);
 const TRANSITION = 10;
-/** Frames per color before swapping (police-light pace) */
 const FLASH_HALF = 5;
 
-/** Staggered offsets for a 5-portrait arc collage */
-const PORTRAIT_LAYOUT = [
-  { x: -292, y: 18, z: 1, rot: -10, size: 148 },
-  { x: -148, y: -6, z: 2, rot: -4, size: 162 },
-  { x: 0, y: -22, z: 3, rot: 0, size: 178 },
-  { x: 148, y: -6, z: 2, rot: 4, size: 162 },
-  { x: 292, y: 18, z: 1, rot: 10, size: 148 },
+/** Compact overlapping portrait stack for bottom-right badge */
+const CORNER_PORTRAITS = [
+  { x: -52, y: 10, z: 1, rot: -12, size: 72 },
+  { x: -28, y: -4, z: 2, rot: -5, size: 78 },
+  { x: 0, y: -12, z: 3, rot: 0, size: 86 },
+  { x: 28, y: -4, z: 2, rot: 5, size: 78 },
+  { x: 52, y: 10, z: 1, rot: 12, size: 72 },
 ];
 
 type SpotlightCardProps = {
   index: number;
+};
+
+const CornerFeature: React.FC<{
+  committee: CommitteeSpotlight;
+  featureStyle: React.CSSProperties;
+  frame: number;
+  fps: number;
+}> = ({ committee: c, featureStyle, frame, fps }) => {
+  const portraits = c.featurePortraits ?? [];
+  const flashPair = c.featureFlashPair;
+  const isLandscape = c.featureArtLayout === "landscape";
+
+  const flashPhase = Math.floor(frame / FLASH_HALF) % 2;
+  const blueOn = Boolean(flashPair) && flashPhase === 0;
+  const flashPulse = flashPair
+    ? interpolate(frame % FLASH_HALF, [0, 1, FLASH_HALF - 1], [1.06, 1, 0.97], {
+        extrapolateLeft: "clamp",
+        extrapolateRight: "clamp",
+      })
+    : 1;
+
+  return (
+    <div
+      style={{
+        ...featureStyle,
+        position: "absolute",
+        right: isLandscape ? -28 : -18,
+        bottom: isLandscape ? -22 : -28,
+        zIndex: 8,
+        pointerEvents: "none",
+        filter: "drop-shadow(0 10px 22px rgba(0,0,0,0.45))",
+      }}
+    >
+      {flashPair ? (
+        <div
+          style={{
+            position: "relative",
+            width: 132,
+            height: 158,
+            transform: `rotate(8deg) scale(${flashPulse})`,
+          }}
+        >
+          <div
+            style={{
+              position: "absolute",
+              inset: "-18%",
+              borderRadius: "50%",
+              background: blueOn
+                ? "radial-gradient(circle, rgba(40,120,255,0.5) 0%, transparent 70%)"
+                : "radial-gradient(circle, rgba(255,40,50,0.5) 0%, transparent 70%)",
+            }}
+          />
+          <Img
+            src={staticFile(flashPair[0])}
+            style={{
+              position: "absolute",
+              inset: 0,
+              width: "100%",
+              height: "100%",
+              objectFit: "contain",
+              opacity: blueOn ? 1 : 0,
+            }}
+          />
+          <Img
+            src={staticFile(flashPair[1])}
+            style={{
+              position: "absolute",
+              inset: 0,
+              width: "100%",
+              height: "100%",
+              objectFit: "contain",
+              opacity: blueOn ? 0 : 1,
+            }}
+          />
+        </div>
+      ) : portraits.length > 0 ? (
+        <div style={{ position: "relative", width: 160, height: 120 }}>
+          {portraits.map((src, i) => {
+            const layout = CORNER_PORTRAITS[i] ?? CORNER_PORTRAITS[2];
+            const pop = springPop(frame, fps, 1 + i * 1.2, 0.82);
+            return (
+              <div
+                key={src}
+                style={{
+                  position: "absolute",
+                  left: "50%",
+                  top: "50%",
+                  width: layout.size,
+                  height: layout.size,
+                  marginLeft: -layout.size / 2,
+                  marginTop: -layout.size / 2,
+                  transform: `translate(${layout.x}px, ${layout.y}px) rotate(${layout.rot}deg) ${pop.transform}`,
+                  opacity: pop.opacity,
+                  zIndex: layout.z,
+                  borderRadius: "50%",
+                  overflow: "hidden",
+                  border: "3px solid rgba(255,255,255,0.92)",
+                  boxShadow: "0 6px 16px rgba(0,0,0,0.4)",
+                  background: "rgba(255,255,255,0.12)",
+                }}
+              >
+                <Img
+                  src={staticFile(src)}
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                  }}
+                />
+              </div>
+            );
+          })}
+        </div>
+      ) : c.featureArt ? (
+        <Img
+          src={staticFile(c.featureArt)}
+          style={
+            isLandscape
+              ? {
+                  width: 220,
+                  height: 128,
+                  objectFit: "contain",
+                  borderRadius: 12,
+                  transform: "rotate(-6deg)",
+                }
+              : {
+                  width: 148,
+                  height: 168,
+                  objectFit: "contain",
+                  transform: "rotate(7deg)",
+                }
+          }
+        />
+      ) : null}
+    </div>
+  );
 };
 
 const SpotlightCard: React.FC<SpotlightCardProps> = ({ index }) => {
@@ -44,24 +179,20 @@ const SpotlightCard: React.FC<SpotlightCardProps> = ({ index }) => {
   const { fps } = useVideoConfig();
   const c = ALL_COMMITTEES[index];
   const isFirst = index === 0;
-  const portraits = c.featurePortraits ?? [];
-  const flashPair = c.featureFlashPair;
-  const hasPortraits = portraits.length > 0;
-  const hasFlash = Boolean(flashPair);
-  const hasFeature = Boolean(c.featureArt) || hasPortraits || hasFlash;
-  const isLandscape = c.featureArtLayout === "landscape";
-  const showEmblemUnderFeature = hasFeature && !c.featureArtContainsLogo;
-  const compact = hasFeature;
+  const hasCornerArt =
+    Boolean(c.featureArt) ||
+    Boolean(c.featurePortraits?.length) ||
+    Boolean(c.featureFlashPair);
 
   const enter = isFirst
     ? fadeUpBlur(frame, fps, 1, 32)
     : deckSwipe(frame, fps, 0, TRANSITION, "in");
 
-  const feature = springPop(frame, fps, isFirst ? 2 : 1, 0.88);
-  const emblem = springPop(frame, fps, isFirst ? 3 : 2, 0.84);
-  const name = fadeUpBlur(frame, fps, isFirst ? 7 : 5, 22);
-  const t1 = fadeUpBlur(frame, fps, isFirst ? 12 : 9, 18);
-  const t2 = fadeUpBlur(frame, fps, isFirst ? 16 : 13, 18);
+  const feature = springPop(frame, fps, isFirst ? 4 : 3, 0.9);
+  const emblem = springPop(frame, fps, isFirst ? 2 : 1, 0.84);
+  const name = fadeUpBlur(frame, fps, isFirst ? 6 : 4, 22);
+  const t1 = fadeUpBlur(frame, fps, isFirst ? 11 : 8, 18);
+  const t2 = fadeUpBlur(frame, fps, isFirst ? 15 : 12, 18);
 
   const exitStart = SLOT - TRANSITION - 1;
   const shouldExit = index < ALL_COMMITTEES.length - 1;
@@ -71,21 +202,6 @@ const SpotlightCard: React.FC<SpotlightCardProps> = ({ index }) => {
 
   const inExit = frame >= exitStart && shouldExit;
   const motion = inExit ? exit : enter;
-
-  // Hard-cut flash mapped onto the same footprint (blue ↔ red)
-  const flashPhase = Math.floor(frame / FLASH_HALF) % 2;
-  const blueOn = hasFlash && flashPhase === 0;
-  const flashGlow = hasFlash
-    ? blueOn
-      ? "radial-gradient(circle, rgba(40,120,255,0.55) 0%, rgba(40,120,255,0.12) 42%, transparent 70%)"
-      : "radial-gradient(circle, rgba(255,40,50,0.55) 0%, rgba(255,40,50,0.12) 42%, transparent 70%)"
-    : undefined;
-  const flashPulse = hasFlash
-    ? interpolate(frame % FLASH_HALF, [0, 1, FLASH_HALF - 1], [1.04, 1, 0.98], {
-        extrapolateLeft: "clamp",
-        extrapolateRight: "clamp",
-      })
-    : 1;
 
   return (
     <AbsoluteFill
@@ -104,251 +220,105 @@ const SpotlightCard: React.FC<SpotlightCardProps> = ({ index }) => {
         ...motion,
       }}
     >
-      <GlassPanel
-        radius={32}
+      <div
         style={{
+          position: "relative",
           width: "100%",
           maxWidth: 920,
-          padding: compact ? "28px 28px 40px" : "40px 36px 44px",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          textAlign: "center",
         }}
       >
-        {hasFlash && flashPair ? (
-          <div
-            style={{
-              ...feature,
-              position: "relative",
-              width: "100%",
-              height: 340,
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              marginBottom: 8,
-            }}
-          >
-            <div
-              style={{
-                position: "absolute",
-                width: 360,
-                height: 360,
-                borderRadius: "50%",
-                background: flashGlow,
-                top: "50%",
-                left: "50%",
-                transform: "translate(-50%, -48%)",
-                pointerEvents: "none",
-              }}
-            />
-            <div
-              style={{
-                position: "relative",
-                width: 280,
-                height: 340,
-                transform: `scale(${flashPulse})`,
-                filter: "drop-shadow(0 12px 28px rgba(0,0,0,0.55))",
-              }}
-            >
-              <Img
-                src={staticFile(flashPair[0])}
-                style={{
-                  position: "absolute",
-                  inset: 0,
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "contain",
-                  opacity: blueOn ? 1 : 0,
-                }}
-              />
-              <Img
-                src={staticFile(flashPair[1])}
-                style={{
-                  position: "absolute",
-                  inset: 0,
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "contain",
-                  opacity: blueOn ? 0 : 1,
-                }}
-              />
-            </div>
-          </div>
-        ) : hasPortraits ? (
-          <div
-            style={{
-              ...feature,
-              position: "relative",
-              width: "100%",
-              height: 230,
-              marginBottom: 4,
-            }}
-          >
-            {portraits.map((src, i) => {
-              const layout = PORTRAIT_LAYOUT[i] ?? PORTRAIT_LAYOUT[2];
-              const pop = springPop(frame, fps, 1 + i * 1.5, 0.78);
-              return (
-                <div
-                  key={src}
-                  style={{
-                    position: "absolute",
-                    left: "50%",
-                    top: "50%",
-                    width: layout.size,
-                    height: layout.size,
-                    marginLeft: -layout.size / 2,
-                    marginTop: -layout.size / 2,
-                    transform: `translate(${layout.x}px, ${layout.y}px) rotate(${layout.rot}deg) ${pop.transform}`,
-                    opacity: pop.opacity,
-                    zIndex: layout.z,
-                    borderRadius: "50%",
-                    overflow: "hidden",
-                    border: "4px solid rgba(255,255,255,0.92)",
-                    boxShadow: "0 10px 28px rgba(0,0,0,0.45)",
-                    background: "rgba(255,255,255,0.12)",
-                  }}
-                >
-                  <Img
-                    src={staticFile(src)}
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                    }}
-                  />
-                </div>
-              );
-            })}
-          </div>
-        ) : hasFeature && c.featureArt ? (
-          <div
-            style={{
-              ...feature,
-              position: "relative",
-              width: "100%",
-              display: "flex",
-              justifyContent: "center",
-              marginBottom: isLandscape ? 12 : 8,
-            }}
-          >
-            {!isLandscape ? (
-              <div
-                style={{
-                  position: "absolute",
-                  width: 340,
-                  height: 340,
-                  borderRadius: "50%",
-                  background:
-                    "radial-gradient(circle, rgba(255,255,255,0.28) 0%, rgba(255,255,255,0.08) 45%, transparent 70%)",
-                  top: "50%",
-                  left: "50%",
-                  transform: "translate(-50%, -48%)",
-                  pointerEvents: "none",
-                }}
-              />
-            ) : null}
-            <Img
-              src={staticFile(c.featureArt)}
-              style={
-                isLandscape
-                  ? {
-                      width: "100%",
-                      maxWidth: 820,
-                      height: 280,
-                      objectFit: "contain",
-                      position: "relative",
-                      borderRadius: 18,
-                      filter: "drop-shadow(0 14px 32px rgba(0,0,0,0.45))",
-                    }
-                  : {
-                      width: 320,
-                      height: c.featureArtContainsLogo ? 320 : 380,
-                      objectFit: "contain",
-                      position: "relative",
-                      filter: "drop-shadow(0 12px 28px rgba(0,0,0,0.55))",
-                    }
-              }
-            />
-          </div>
-        ) : (
+        <GlassPanel
+          radius={32}
+          style={{
+            width: "100%",
+            padding: "40px 36px 44px",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            textAlign: "center",
+          }}
+        >
           <div style={emblem}>
             <CommitteeLogo src={c.logo} size={200} pad={16} />
           </div>
-        )}
 
-        <div
-          style={{
-            ...name,
-            marginTop: compact ? 4 : 20,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            gap: 8,
-          }}
-        >
-          {showEmblemUnderFeature ? (
-            <div style={emblem}>
-              <CommitteeLogo src={c.logo} size={72} pad={8} />
-            </div>
-          ) : null}
           <div
             style={{
-              color: COLORS.white,
-              fontSize: compact ? 52 : 58,
-              fontWeight: 800,
-              letterSpacing: "0.04em",
-              lineHeight: 1,
-              textShadow: TEXT_SHADOW_STRONG,
+              ...name,
+              marginTop: 20,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: 8,
             }}
           >
-            {c.acronym}
+            <div
+              style={{
+                color: COLORS.white,
+                fontSize: 58,
+                fontWeight: 800,
+                letterSpacing: "0.04em",
+                lineHeight: 1,
+                textShadow: TEXT_SHADOW_STRONG,
+              }}
+            >
+              {c.acronym}
+            </div>
+            <div
+              style={{
+                marginTop: 4,
+                color: COLORS.ice,
+                fontSize: 23,
+                fontWeight: 600,
+                textShadow: TEXT_SHADOW_STRONG,
+              }}
+            >
+              {c.name}
+            </div>
           </div>
+
           <div
             style={{
-              marginTop: 4,
-              color: COLORS.ice,
-              fontSize: compact ? 21 : 23,
-              fontWeight: 600,
-              textShadow: TEXT_SHADOW_STRONG,
+              marginTop: 28,
+              width: "100%",
+              display: "flex",
+              flexDirection: "column",
+              gap: 12,
+              alignItems: "center",
             }}
           >
-            {c.name}
+            {c.topics.map((topic, ti) => (
+              <div key={topic} style={{ ...(ti === 0 ? t1 : t2), width: "100%" }}>
+                <GlassPanel
+                  variant="light"
+                  radius={18}
+                  style={{
+                    padding: "14px 20px",
+                    color: COLORS.white,
+                    fontSize: 25,
+                    fontWeight: 700,
+                    letterSpacing: "-0.01em",
+                    lineHeight: 1.3,
+                    textAlign: "center",
+                    textShadow: TEXT_SHADOW_STRONG,
+                  }}
+                >
+                  {topic}
+                </GlassPanel>
+              </div>
+            ))}
           </div>
-        </div>
+        </GlassPanel>
 
-        <div
-          style={{
-            marginTop: compact ? 18 : 28,
-            width: "100%",
-            display: "flex",
-            flexDirection: "column",
-            gap: 12,
-            alignItems: "center",
-          }}
-        >
-          {c.topics.map((topic, ti) => (
-            <div key={topic} style={{ ...(ti === 0 ? t1 : t2), width: "100%" }}>
-              <GlassPanel
-                variant="light"
-                radius={18}
-                style={{
-                  padding: "14px 20px",
-                  color: COLORS.white,
-                  fontSize: compact ? 23 : 25,
-                  fontWeight: 700,
-                  letterSpacing: "-0.01em",
-                  lineHeight: 1.3,
-                  textAlign: "center",
-                  textShadow: TEXT_SHADOW_STRONG,
-                }}
-              >
-                {topic}
-              </GlassPanel>
-            </div>
-          ))}
-        </div>
-      </GlassPanel>
+        {hasCornerArt ? (
+          <CornerFeature
+            committee={c}
+            featureStyle={feature}
+            frame={frame}
+            fps={fps}
+          />
+        ) : null}
+      </div>
     </AbsoluteFill>
   );
 };
