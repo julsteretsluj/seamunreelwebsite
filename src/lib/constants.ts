@@ -3,8 +3,38 @@ export const WIDTH = 1080;
 export const HEIGHT = 1920;
 export const FPS = 30;
 
-/** Total duration ≈ 26s (fits 10 spotlights + team) */
-export const DURATION_IN_FRAMES = 26 * FPS;
+/** ~3s per committee spotlight so topics are readable */
+export const COMMITTEE_SPOTLIGHT_SECONDS = 3;
+export const COMMITTEE_COUNT = 10;
+export const SPOTLIGHTS_DURATION_SECONDS =
+  COMMITTEE_SPOTLIGHT_SECONDS * COMMITTEE_COUNT; // 30s
+
+/**
+ * Scene timeline (seconds)
+ * Opening 2.2 + Committees 2.8 + Spotlights 30 + Team 2.5
+ * + Delegate 2.3 + Chair 2 + Advisor 1.7 + Finale 2.5 ≈ 46s
+ */
+const OPENING_S = 2.2;
+const COMMITTEES_S = 2.8;
+const SPOTLIGHTS_S = SPOTLIGHTS_DURATION_SECONDS;
+const TEAM_S = 2.5;
+const DELEGATE_S = 2.3;
+const CHAIR_S = 2;
+const ADVISOR_S = 1.7;
+const FINALE_S = 2.5;
+
+const t = (s: number) => Math.round(s * FPS);
+
+export const DURATION_IN_FRAMES = t(
+  OPENING_S +
+    COMMITTEES_S +
+    SPOTLIGHTS_S +
+    TEAM_S +
+    DELEGATE_S +
+    CHAIR_S +
+    ADVISOR_S +
+    FINALE_S,
+);
 
 export const COLORS = {
   deepNavy: "#020e18",
@@ -33,26 +63,24 @@ export const SAFE = {
   side: 64,
 } as const;
 
-/**
- * Scene timeline (seconds → frames)
- * 1 Opening     0–2.2
- * 2 Committees  2.2–5
- * 3 Spotlights  5–15   (10 committees)
- * 4 Team        15–17.5
- * 5 Delegate    17.5–19.8
- * 6 Chair       19.8–21.8
- * 7 Advisor     21.8–23.5
- * 8 Finale      23.5–26
- */
+const openingFrom = 0;
+const committeesFrom = openingFrom + t(OPENING_S);
+const spotlightsFrom = committeesFrom + t(COMMITTEES_S);
+const teamFrom = spotlightsFrom + t(SPOTLIGHTS_S);
+const delegateFrom = teamFrom + t(TEAM_S);
+const chairFrom = delegateFrom + t(DELEGATE_S);
+const advisorFrom = chairFrom + t(CHAIR_S);
+const finaleFrom = advisorFrom + t(ADVISOR_S);
+
 export const SCENES = {
-  opening: { from: 0, duration: Math.round(2.2 * FPS) },
-  committees: { from: Math.round(2.2 * FPS), duration: Math.round(2.8 * FPS) },
-  spotlights: { from: Math.round(5 * FPS), duration: Math.round(10 * FPS) },
-  team: { from: Math.round(15 * FPS), duration: Math.round(2.5 * FPS) },
-  delegate: { from: Math.round(17.5 * FPS), duration: Math.round(2.3 * FPS) },
-  chair: { from: Math.round(19.8 * FPS), duration: Math.round(2 * FPS) },
-  advisor: { from: Math.round(21.8 * FPS), duration: Math.round(1.7 * FPS) },
-  finale: { from: Math.round(23.5 * FPS), duration: Math.round(2.5 * FPS) },
+  opening: { from: openingFrom, duration: t(OPENING_S) },
+  committees: { from: committeesFrom, duration: t(COMMITTEES_S) },
+  spotlights: { from: spotlightsFrom, duration: t(SPOTLIGHTS_S) },
+  team: { from: teamFrom, duration: t(TEAM_S) },
+  delegate: { from: delegateFrom, duration: t(DELEGATE_S) },
+  chair: { from: chairFrom, duration: t(CHAIR_S) },
+  advisor: { from: advisorFrom, duration: t(ADVISOR_S) },
+  finale: { from: finaleFrom, duration: t(FINALE_S) },
 } as const;
 
 export const FONT =

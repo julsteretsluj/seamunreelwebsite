@@ -1,13 +1,18 @@
 import React from "react";
 import { AbsoluteFill, Img, Sequence, staticFile, useCurrentFrame } from "remotion";
-import { COLORS, FONT, FPS, SAFE } from "../lib/constants";
+import {
+  COLORS,
+  COMMITTEE_SPOTLIGHT_SECONDS,
+  FONT,
+  FPS,
+  SAFE,
+} from "../lib/constants";
 import { ALL_COMMITTEES } from "../lib/content";
 import { fadeUp, scaleFade, swipeTransition } from "../lib/motion";
 import { GlassPanel } from "../components/GlassPanel";
 
-const SPOTLIGHT_DURATION = 10 * FPS;
-const SLOT = Math.floor(SPOTLIGHT_DURATION / ALL_COMMITTEES.length); // ~30 frames
-const TRANSITION = 8;
+const SLOT = Math.round(COMMITTEE_SPOTLIGHT_SECONDS * FPS); // 3s hold
+const TRANSITION = 10;
 
 type SpotlightCardProps = {
   index: number;
@@ -18,12 +23,12 @@ const SpotlightCard: React.FC<SpotlightCardProps> = ({ index }) => {
   const c = ALL_COMMITTEES[index];
   const isFirst = index === 0;
   const enter = isFirst
-    ? fadeUp(frame, 1, 8, 24)
+    ? fadeUp(frame, 2, 10, 28)
     : swipeTransition(frame, 0, TRANSITION, "in", 90);
-  const emblem = scaleFade(frame, isFirst ? 3 : 2, 8, 0.92);
-  const name = fadeUp(frame, isFirst ? 8 : 6, 8, 22);
-  const t1 = fadeUp(frame, isFirst ? 12 : 10, 8, 18);
-  const t2 = fadeUp(frame, isFirst ? 16 : 14, 8, 18);
+  const emblem = scaleFade(frame, isFirst ? 4 : 3, 10, 0.92);
+  const name = fadeUp(frame, isFirst ? 10 : 8, 10, 24);
+  const t1 = fadeUp(frame, isFirst ? 16 : 14, 10, 20);
+  const t2 = fadeUp(frame, isFirst ? 22 : 20, 10, 20);
 
   const exitStart = SLOT - TRANSITION - 1;
   const shouldExit = index < ALL_COMMITTEES.length - 1;
