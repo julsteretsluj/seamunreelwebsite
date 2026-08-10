@@ -3,39 +3,133 @@ export type CommitteeSpotlight = {
   acronym: string;
   name: string;
   logo: string;
-  topics: [string, string];
+  /** Concise topic labels derived from official seamun.com agendas */
+  topics: string[];
 };
 
-/** Advanced committee emblems — Scene 2 + 3 */
-export const ADVANCED_COMMITTEES: CommitteeSpotlight[] = [
+/** All 10 committees — official topics shortened for video readability */
+export const ALL_COMMITTEES: CommitteeSpotlight[] = [
+  {
+    id: "ecosoc",
+    acronym: "ECOSOC",
+    name: "Economic and Social Council",
+    logo: "assets/committee-logos/ecosoc.png",
+    topics: [
+      "Universal Basic Income & Economic Stability",
+      "Military Spending to Public Health",
+    ],
+  },
+  {
+    id: "press",
+    acronym: "Press",
+    name: "Press Corps",
+    logo: "assets/committee-logos/press.png",
+    topics: ["Journalistic Ethics in Public Health Reporting"],
+  },
+  {
+    id: "unhrc",
+    acronym: "UNHRC",
+    name: "Human Rights Council",
+    logo: "assets/committee-logos/unhrc.png",
+    topics: [
+      "Death Penalty Regulation & Application",
+      "Preventing Cruel Treatment in Judicial Systems",
+    ],
+  },
+  {
+    id: "unodc",
+    acronym: "UNODC",
+    name: "UN Office on Drugs & Crime",
+    logo: "assets/committee-logos/unodc.png",
+    topics: [
+      "Alternatives to Punishment for Personal Drug Use",
+      "Inter-generational Impact of Addiction",
+    ],
+  },
+  {
+    id: "unsc",
+    acronym: "UNSC",
+    name: "Security Council (Crisis)",
+    logo: "assets/committee-logos/unsc.png",
+    topics: ["Standardizing Peacekeeping & Medical Support"],
+  },
+  {
+    id: "unwomen",
+    acronym: "UN Women",
+    name: "UN Women",
+    logo: "assets/committee-logos/unwomen.png",
+    topics: [
+      "Reproductive Autonomy & Safe Abortion Access",
+      "Universal Childcare as a Human Right",
+    ],
+  },
   {
     id: "disec",
     acronym: "DISEC",
     name: "Disarmament & Int'l Security",
     logo: "assets/committee-logos/disec.png",
-    topics: ["Cross-Border Weapons Transport", "Preventing Arms Diversion"],
+    topics: [
+      "Cross-Border Weapons Transport",
+      "Preventing Arms Diversion",
+    ],
   },
   {
     id: "fwc",
     acronym: "FWC",
-    name: "Fantasy World Committee",
+    name: "Fantasy World Committee (Crisis)",
     logo: "assets/committee-logos/fwc.png",
-    topics: ["Outbreak Response Protocol", "International Aid Coordination"],
+    topics: [
+      "Psychic Child Experimentation & Protection",
+      "Weaponization of the Human Mind",
+    ],
   },
   {
     id: "interpol",
     acronym: "INTERPOL",
-    name: "Int'l Criminal Police Org.",
+    name: "Int'l Criminal Police Organization",
     logo: "assets/committee-logos/interpol.png",
-    topics: ["Disrupting Human Trafficking", "Combating Cybercrime Networks"],
+    topics: [
+      "Underground Medical Markets",
+      "Narcotics Trafficking — Schengen & Golden Triangle",
+    ],
   },
   {
     id: "who",
     acronym: "WHO",
     name: "World Health Organization",
     logo: "assets/committee-logos/who.png",
-    topics: ["Pandemic Preparedness", "Universal Health Coverage"],
+    topics: [
+      "Psychedelics for Trauma-Based Mental Health",
+      "Pandemic Response & Recovery",
+    ],
   },
+];
+
+/** @deprecated use ALL_COMMITTEES */
+export const ADVANCED_COMMITTEES = ALL_COMMITTEES.filter((c) =>
+  ["disec", "fwc", "interpol", "who"].includes(c.id),
+);
+
+export type TeamMember = {
+  name: string;
+  role: string;
+  img: string;
+};
+
+export const TEAM: TeamMember[] = [
+  { name: "Jules K.A.", role: "Secretary General", img: "assets/leadership/jules.png" },
+  { name: "Emily H.", role: "Deputy Secretary General", img: "assets/leadership/emily.png" },
+  { name: "Tung-O", role: "Co-Deputy SG", img: "assets/leadership/tung-o.png" },
+  { name: "Sam S.", role: "Parliamentarian", img: "assets/leadership/sam.png" },
+  { name: "Sparkle W.", role: "Parliamentarian", img: "assets/leadership/sparkle.png" },
+  { name: "Venice K.", role: "Parliamentarian", img: "assets/leadership/venice.png" },
+  { name: "Dominic S. S.", role: "Head of Delegate Affairs", img: "assets/leadership/dominic.png" },
+  { name: "Moonum C.", role: "Head of Logistics", img: "assets/leadership/moonum.png" },
+  { name: "Nadia", role: "Head of Thai Operations", img: "assets/leadership/nadia.png" },
+  { name: "Mannan P.", role: "Deputy Head of Finance", img: "assets/leadership/mannan.png" },
+  { name: "Phil R.", role: "Head of PR & Advertising", img: "assets/leadership/phil.png" },
+  { name: "Myesha S.", role: "Head of Community Outreach", img: "assets/leadership/myesha.png" },
+  { name: "Joanna H.", role: "Head of Media", img: "assets/leadership/joanna.png" },
 ];
 
 export type SignupScene = {

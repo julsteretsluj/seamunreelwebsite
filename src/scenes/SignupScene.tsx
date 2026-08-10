@@ -26,19 +26,20 @@ export const SignupScene: React.FC<Props> = ({ data, swipeIn = true }) => {
   return (
     <AbsoluteFill
       style={{
-        paddingTop: SAFE.top + 20,
+        paddingTop: SAFE.top,
         paddingBottom: SAFE.bottom,
         paddingLeft: SAFE.side,
-        paddingRight: SAFE.side + SAFE.rightExtra,
+        paddingRight: SAFE.side,
         boxSizing: "border-box",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
+        justifyContent: "center",
         fontFamily: FONT,
         ...enter,
       }}
     >
-      <div style={{ ...headline, width: "100%" }}>
+      <div style={{ ...headline, width: "100%", maxWidth: 920 }}>
         <GlassPanel
           radius={28}
           style={{
@@ -65,7 +66,7 @@ export const SignupScene: React.FC<Props> = ({ data, swipeIn = true }) => {
         detail={data.dueDetail}
         accent={data.accent}
         startFrame={notifStart}
-        style={{ marginTop: 28, width: "100%" }}
+        style={{ marginTop: 28, width: "100%", maxWidth: 920 }}
       />
 
       <div

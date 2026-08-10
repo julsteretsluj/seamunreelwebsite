@@ -27,7 +27,7 @@ export const FinaleScene: React.FC = () => {
         paddingTop: SAFE.top,
         paddingBottom: SAFE.bottom,
         paddingLeft: SAFE.side,
-        paddingRight: SAFE.side + SAFE.rightExtra,
+        paddingRight: SAFE.side,
         boxSizing: "border-box",
         display: "flex",
         flexDirection: "column",
@@ -43,6 +43,7 @@ export const FinaleScene: React.FC = () => {
           transform: `${brand.transform} ${brandScale.transform}`,
           opacity: Math.min(brand.opacity, brandScale.opacity),
           width: "100%",
+          maxWidth: 920,
         }}
       >
         <GlassPanel

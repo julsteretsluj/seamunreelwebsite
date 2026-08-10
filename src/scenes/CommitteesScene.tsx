@@ -1,12 +1,12 @@
 import React from "react";
 import { AbsoluteFill, Img, staticFile, useCurrentFrame } from "remotion";
 import { COLORS, FONT, SAFE } from "../lib/constants";
-import { ADVANCED_COMMITTEES } from "../lib/content";
+import { ALL_COMMITTEES } from "../lib/content";
 import { fadeUp, scaleFade } from "../lib/motion";
 import { GlassPanel } from "../components/GlassPanel";
 import { PartnershipPill } from "../components/PartnershipPill";
 
-/** Scene 2 — Choose Your Committee (2.5–5s) */
+/** Scene 2 — All 10 committees */
 export const CommitteesScene: React.FC = () => {
   const frame = useCurrentFrame();
   const title = fadeUp(frame, 4, 12, 36);
@@ -18,33 +18,34 @@ export const CommitteesScene: React.FC = () => {
         paddingTop: SAFE.top,
         paddingBottom: SAFE.bottom,
         paddingLeft: SAFE.side,
-        paddingRight: SAFE.side + SAFE.rightExtra,
+        paddingRight: SAFE.side,
         boxSizing: "border-box",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
+        justifyContent: "center",
         fontFamily: FONT,
       }}
     >
-      <div style={partner}>
+      <div style={{ ...partner, marginBottom: 28 }}>
         <PartnershipPill />
       </div>
 
-      <div style={{ ...title, marginTop: 56, width: "100%" }}>
+      <div style={{ ...title, width: "100%", maxWidth: 920 }}>
         <GlassPanel
           radius={30}
           style={{
-            padding: "40px 36px 48px",
+            padding: "32px 28px 36px",
             textAlign: "center",
           }}
         >
           <div
             style={{
               color: COLORS.white,
-              fontSize: 48,
+              fontSize: 42,
               fontWeight: 800,
               letterSpacing: "-0.02em",
-              marginBottom: 40,
+              marginBottom: 28,
               textShadow: "0 2px 12px rgba(0,0,0,0.4)",
             }}
           >
@@ -54,14 +55,15 @@ export const CommitteesScene: React.FC = () => {
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: 28,
+              gridTemplateColumns: "repeat(5, 1fr)",
+              gap: "18px 10px",
               justifyItems: "center",
+              alignItems: "start",
             }}
           >
-            {ADVANCED_COMMITTEES.map((c, i) => {
-              const start = 14 + i * 6; // ~0.2s stagger at 30fps
-              const anim = scaleFade(frame, start, 12, 0.9);
+            {ALL_COMMITTEES.map((c, i) => {
+              const start = 6 + i * 2;
+              const anim = scaleFade(frame, start, 10, 0.9);
               return (
                 <div
                   key={c.id}
@@ -70,25 +72,27 @@ export const CommitteesScene: React.FC = () => {
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
-                    gap: 12,
-                    width: 220,
+                    gap: 8,
+                    width: "100%",
                   }}
                 >
                   <Img
                     src={staticFile(c.logo)}
                     style={{
-                      width: 168,
-                      height: 168,
+                      width: 118,
+                      height: 118,
                       objectFit: "contain",
-                      filter: "drop-shadow(0 6px 18px rgba(0,0,0,0.35))",
+                      filter: "drop-shadow(0 4px 12px rgba(0,0,0,0.35))",
                     }}
                   />
                   <div
                     style={{
                       color: COLORS.ice,
-                      fontSize: 22,
+                      fontSize: 15,
                       fontWeight: 700,
-                      letterSpacing: "0.06em",
+                      letterSpacing: "0.02em",
+                      lineHeight: 1.15,
+                      textAlign: "center",
                     }}
                   >
                     {c.acronym}

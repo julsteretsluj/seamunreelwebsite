@@ -22,22 +22,23 @@ export const OpeningScene: React.FC = () => {
         paddingTop: SAFE.top,
         paddingBottom: SAFE.bottom,
         paddingLeft: SAFE.side,
-        paddingRight: SAFE.side + SAFE.rightExtra,
+        paddingRight: SAFE.side,
         boxSizing: "border-box",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
+        justifyContent: "center",
         fontFamily: FONT,
       }}
     >
-      <div style={{ ...partner, marginTop: 8 }}>
+      <div style={{ ...partner, marginBottom: 24 }}>
         <PartnershipPill />
       </div>
 
       <div
         style={{
-          marginTop: 48,
           width: "100%",
+          maxWidth: 920,
           ...brand,
           transform: `${brand.transform} ${brandScale.transform}`,
           opacity: Math.min(brand.opacity, brandScale.opacity),
@@ -93,6 +94,7 @@ export const OpeningScene: React.FC = () => {
         style={{
           marginTop: 28,
           width: "100%",
+          maxWidth: 920,
           display: "flex",
           gap: 16,
           ...meta,

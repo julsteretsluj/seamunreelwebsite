@@ -3,8 +3,8 @@ export const WIDTH = 1080;
 export const HEIGHT = 1920;
 export const FPS = 30;
 
-/** Total duration ≈ 22s */
-export const DURATION_IN_FRAMES = 22 * FPS;
+/** Total duration ≈ 26s (fits 10 spotlights + team) */
+export const DURATION_IN_FRAMES = 26 * FPS;
 
 export const COLORS = {
   deepNavy: "#020e18",
@@ -26,32 +26,33 @@ export const COLORS = {
   notifCoral: "#FCA5A5",
 } as const;
 
-/** Safe zones for IG UI (px from edges) */
+/** Equal safe zones — keep content centered for IG UI */
 export const SAFE = {
   top: 120,
-  bottom: 180,
-  side: 72,
-  rightExtra: 40,
+  bottom: 160,
+  side: 64,
 } as const;
 
 /**
  * Scene timeline (seconds → frames)
- * 1 Opening 0–2.5
- * 2 Committees 2.5–5
- * 3 Spotlights 5–11
- * 4 Delegate 11–14
- * 5 Chair 14–16.5
- * 6 Advisor 16.5–18.5
- * 7 Finale 18.5–22
+ * 1 Opening     0–2.2
+ * 2 Committees  2.2–5
+ * 3 Spotlights  5–15   (10 committees)
+ * 4 Team        15–17.5
+ * 5 Delegate    17.5–19.8
+ * 6 Chair       19.8–21.8
+ * 7 Advisor     21.8–23.5
+ * 8 Finale      23.5–26
  */
 export const SCENES = {
-  opening: { from: 0, duration: 2.5 * FPS },
-  committees: { from: 2.5 * FPS, duration: 2.5 * FPS },
-  spotlights: { from: 5 * FPS, duration: 6 * FPS },
-  delegate: { from: 11 * FPS, duration: 3 * FPS },
-  chair: { from: 14 * FPS, duration: 2.5 * FPS },
-  advisor: { from: 16.5 * FPS, duration: 2 * FPS },
-  finale: { from: 18.5 * FPS, duration: 3.5 * FPS },
+  opening: { from: 0, duration: Math.round(2.2 * FPS) },
+  committees: { from: Math.round(2.2 * FPS), duration: Math.round(2.8 * FPS) },
+  spotlights: { from: Math.round(5 * FPS), duration: Math.round(10 * FPS) },
+  team: { from: Math.round(15 * FPS), duration: Math.round(2.5 * FPS) },
+  delegate: { from: Math.round(17.5 * FPS), duration: Math.round(2.3 * FPS) },
+  chair: { from: Math.round(19.8 * FPS), duration: Math.round(2 * FPS) },
+  advisor: { from: Math.round(21.8 * FPS), duration: Math.round(1.7 * FPS) },
+  finale: { from: Math.round(23.5 * FPS), duration: Math.round(2.5 * FPS) },
 } as const;
 
 export const FONT =

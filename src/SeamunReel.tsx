@@ -6,6 +6,7 @@ import { SIGNUPS } from "./lib/content";
 import { OpeningScene } from "./scenes/OpeningScene";
 import { CommitteesScene } from "./scenes/CommitteesScene";
 import { SpotlightsScene } from "./scenes/SpotlightsScene";
+import { TeamScene } from "./scenes/TeamScene";
 import { SignupScene } from "./scenes/SignupScene";
 import { FinaleScene } from "./scenes/FinaleScene";
 
@@ -46,9 +47,18 @@ export const SeamunReel: React.FC = () => {
       </Sequence>
 
       <Sequence
+        from={SCENES.team.from}
+        durationInFrames={SCENES.team.duration}
+        name="04-Our-Team"
+        layout="none"
+      >
+        <TeamScene />
+      </Sequence>
+
+      <Sequence
         from={SCENES.delegate.from}
         durationInFrames={SCENES.delegate.duration}
-        name="04-Delegate-SignUps"
+        name="05-Delegate-SignUps"
         layout="none"
       >
         <SignupScene data={SIGNUPS[0]} swipeIn />
@@ -57,7 +67,7 @@ export const SeamunReel: React.FC = () => {
       <Sequence
         from={SCENES.chair.from}
         durationInFrames={SCENES.chair.duration}
-        name="05-Chair-Applications"
+        name="06-Chair-Applications"
         layout="none"
       >
         <SignupScene data={SIGNUPS[1]} swipeIn />
@@ -66,7 +76,7 @@ export const SeamunReel: React.FC = () => {
       <Sequence
         from={SCENES.advisor.from}
         durationInFrames={SCENES.advisor.duration}
-        name="06-Advisor-SignUps"
+        name="07-Advisor-SignUps"
         layout="none"
       >
         <SignupScene data={SIGNUPS[2]} swipeIn />
@@ -75,7 +85,7 @@ export const SeamunReel: React.FC = () => {
       <Sequence
         from={SCENES.finale.from}
         durationInFrames={SCENES.finale.duration}
-        name="07-Finale-CTA"
+        name="08-Finale-CTA"
         layout="none"
       >
         <FinaleScene />
