@@ -60,7 +60,7 @@ export const CommitteesScene: React.FC = () => {
               gridTemplateColumns: "repeat(5, 1fr)",
               gap: "18px 10px",
               justifyItems: "center",
-              alignItems: "start",
+              alignItems: "center",
             }}
           >
             {ALL_COMMITTEES.map((c, i) => {
@@ -73,6 +73,7 @@ export const CommitteesScene: React.FC = () => {
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
+                    justifyContent: "flex-start",
                     gap: 8,
                     width: "100%",
                   }}
@@ -87,6 +88,7 @@ export const CommitteesScene: React.FC = () => {
                       lineHeight: 1.15,
                       textAlign: "center",
                       textShadow: TEXT_SHADOW_STRONG,
+                      width: "100%",
                     }}
                   >
                     {c.acronym}
