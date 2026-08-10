@@ -31,12 +31,12 @@ export const StatusBarOverlay: React.FC = () => (
         <div
           style={{
             color: COLORS.white,
-            fontSize: 44,
+            fontSize: 68,
             fontWeight: 700,
-            letterSpacing: "0.01em",
+            letterSpacing: "-0.02em",
             lineHeight: 1,
             textShadow: "0 2px 10px rgba(0,0,0,0.5)",
-            minWidth: 110,
+            minWidth: 140,
           }}
         >
           16:17
@@ -44,7 +44,7 @@ export const StatusBarOverlay: React.FC = () => (
         <Img
           src={staticFile(STATUS_ICONS)}
           style={{
-            height: 42,
+            height: 56,
             width: "auto",
             objectFit: "contain",
             filter: "drop-shadow(0 2px 8px rgba(0,0,0,0.45))",
