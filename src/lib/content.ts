@@ -11,6 +11,8 @@ export type CommitteeSpotlight = {
   featureArtLayout?: "portrait" | "landscape";
   /** When true, skip the small logo under the feature (logo already in the art) */
   featureArtContainsLogo?: boolean;
+  /** Multiple circular portraits shown as a feature collage */
+  featurePortraits?: string[];
 };
 
 /** All 10 committees — official topics shortened for video readability */
@@ -75,6 +77,13 @@ export const ALL_COMMITTEES: CommitteeSpotlight[] = [
     acronym: "UN Women",
     name: "UN Women",
     logo: "assets/committee-logos/unwomen.png",
+    featurePortraits: [
+      "assets/committees/unwomen/malala.png",
+      "assets/committees/unwomen/america-ferrera.png",
+      "assets/committees/unwomen/coretta.png",
+      "assets/committees/unwomen/rosa.png",
+      "assets/committees/unwomen/greta.png",
+    ],
     topics: [
       "Reproductive Autonomy & Safe Abortion Access",
       "Universal Childcare as a Human Right",

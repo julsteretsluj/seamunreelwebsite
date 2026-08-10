@@ -23,6 +23,15 @@ import { CommitteeLogo } from "../components/CommitteeLogo";
 const SLOT = Math.round(COMMITTEE_SPOTLIGHT_SECONDS * FPS);
 const TRANSITION = 10;
 
+/** Staggered offsets for a 5-portrait arc collage */
+const PORTRAIT_LAYOUT = [
+  { x: -292, y: 18, z: 1, rot: -10, size: 148 },
+  { x: -148, y: -6, z: 2, rot: -4, size: 162 },
+  { x: 0, y: -22, z: 3, rot: 0, size: 178 },
+  { x: 148, y: -6, z: 2, rot: 4, size: 162 },
+  { x: 292, y: 18, z: 1, rot: 10, size: 148 },
+];
+
 type SpotlightCardProps = {
   index: number;
 };
@@ -32,7 +41,9 @@ const SpotlightCard: React.FC<SpotlightCardProps> = ({ index }) => {
   const { fps } = useVideoConfig();
   const c = ALL_COMMITTEES[index];
   const isFirst = index === 0;
-  const hasFeature = Boolean(c.featureArt);
+  const portraits = c.featurePortraits ?? [];
+  const hasPortraits = portraits.length > 0;
+  const hasFeature = Boolean(c.featureArt) || hasPortraits;
   const isLandscape = c.featureArtLayout === "landscape";
   const showEmblemUnderFeature = hasFeature && !c.featureArtContainsLogo;
   const compact = hasFeature;
@@ -78,14 +89,60 @@ const SpotlightCard: React.FC<SpotlightCardProps> = ({ index }) => {
         style={{
           width: "100%",
           maxWidth: 920,
-          padding: compact ? "28px 32px 40px" : "40px 36px 44px",
+          padding: compact ? "28px 28px 40px" : "40px 36px 44px",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
           textAlign: "center",
         }}
       >
-        {hasFeature ? (
+        {hasPortraits ? (
+          <div
+            style={{
+              ...feature,
+              position: "relative",
+              width: "100%",
+              height: 230,
+              marginBottom: 4,
+            }}
+          >
+            {portraits.map((src, i) => {
+              const layout = PORTRAIT_LAYOUT[i] ?? PORTRAIT_LAYOUT[2];
+              const pop = springPop(frame, fps, 1 + i * 1.5, 0.78);
+              return (
+                <div
+                  key={src}
+                  style={{
+                    position: "absolute",
+                    left: "50%",
+                    top: "50%",
+                    width: layout.size,
+                    height: layout.size,
+                    marginLeft: -layout.size / 2,
+                    marginTop: -layout.size / 2,
+                    transform: `translate(${layout.x}px, ${layout.y}px) rotate(${layout.rot}deg) ${pop.transform}`,
+                    opacity: pop.opacity,
+                    zIndex: layout.z,
+                    borderRadius: "50%",
+                    overflow: "hidden",
+                    border: "4px solid rgba(255,255,255,0.92)",
+                    boxShadow: "0 10px 28px rgba(0,0,0,0.45)",
+                    background: "rgba(255,255,255,0.12)",
+                  }}
+                >
+                  <Img
+                    src={staticFile(src)}
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                    }}
+                  />
+                </div>
+              );
+            })}
+          </div>
+        ) : hasFeature && c.featureArt ? (
           <div
             style={{
               ...feature,
@@ -113,7 +170,7 @@ const SpotlightCard: React.FC<SpotlightCardProps> = ({ index }) => {
               />
             ) : null}
             <Img
-              src={staticFile(c.featureArt!)}
+              src={staticFile(c.featureArt)}
               style={
                 isLandscape
                   ? {
