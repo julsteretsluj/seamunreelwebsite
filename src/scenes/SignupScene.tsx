@@ -6,7 +6,7 @@ import {
   useCurrentFrame,
   useVideoConfig,
 } from "remotion";
-import { COLORS, FONT, SAFE } from "../lib/constants";
+import { COLORS, FONT, SAFE, TEXT_SHADOW_STRONG } from "../lib/constants";
 import { SignupScene as SignupData } from "../lib/content";
 import { fadeUp, swipeTransition, springPop, fadeUpBlur } from "../lib/motion";
 import { DueDateNotification } from "../components/DueDateNotification";
@@ -60,7 +60,7 @@ export const SignupScene: React.FC<Props> = ({ data, swipeIn = true }) => {
               fontSize: 46,
               fontWeight: 800,
               letterSpacing: "-0.02em",
-              textShadow: "0 2px 12px rgba(0,0,0,0.4)",
+              textShadow: TEXT_SHADOW_STRONG,
             }}
           >
             {data.headline}
@@ -101,13 +101,14 @@ export const SignupScene: React.FC<Props> = ({ data, swipeIn = true }) => {
         style={{
           ...support,
           marginTop: 28,
-          color: COLORS.iceSoft,
+          color: COLORS.whiteSoft,
           fontSize: 26,
-          fontWeight: 500,
+          fontWeight: 600,
           textAlign: "center",
           lineHeight: 1.4,
           maxWidth: 820,
           whiteSpace: "pre-line",
+          textShadow: TEXT_SHADOW_STRONG,
         }}
       >
         {data.support}

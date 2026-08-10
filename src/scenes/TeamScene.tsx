@@ -1,6 +1,6 @@
 import React from "react";
 import { AbsoluteFill, Img, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
-import { COLORS, FONT, SAFE } from "../lib/constants";
+import { COLORS, FONT, SAFE, TEXT_SHADOW_STRONG } from "../lib/constants";
 import { TEAM } from "../lib/content";
 import { fadeUp, springPop } from "../lib/motion";
 import { GlassPanel } from "../components/GlassPanel";
@@ -41,7 +41,7 @@ export const TeamScene: React.FC = () => {
               fontWeight: 800,
               letterSpacing: "-0.02em",
               marginBottom: 28,
-              textShadow: "0 2px 12px rgba(0,0,0,0.4)",
+              textShadow: TEXT_SHADOW_STRONG,
             }}
           >
             Our Team
@@ -86,21 +86,23 @@ export const TeamScene: React.FC = () => {
                   <div
                     style={{
                       color: COLORS.white,
-                      fontSize: 13,
+                      fontSize: 14,
                       fontWeight: 700,
                       lineHeight: 1.15,
                       textAlign: "center",
+                      textShadow: TEXT_SHADOW_STRONG,
                     }}
                   >
                     {member.name}
                   </div>
                   <div
                     style={{
-                      color: COLORS.iceMuted,
-                      fontSize: 11,
-                      fontWeight: 500,
+                      color: COLORS.iceSoft,
+                      fontSize: 12,
+                      fontWeight: 600,
                       lineHeight: 1.2,
                       textAlign: "center",
+                      textShadow: "0 1px 6px rgba(0,0,0,0.5)",
                     }}
                   >
                     {member.role}

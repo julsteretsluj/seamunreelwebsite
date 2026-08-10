@@ -1,6 +1,6 @@
 import React from "react";
 import { AbsoluteFill, useCurrentFrame, useVideoConfig } from "remotion";
-import { COLORS, FONT, SAFE } from "../lib/constants";
+import { COLORS, FONT, SAFE, TEXT_SHADOW_STRONG } from "../lib/constants";
 import { ALL_COMMITTEES } from "../lib/content";
 import { fadeUp, springPop } from "../lib/motion";
 import { GlassPanel } from "../components/GlassPanel";
@@ -48,7 +48,7 @@ export const CommitteesScene: React.FC = () => {
               fontWeight: 800,
               letterSpacing: "-0.02em",
               marginBottom: 28,
-              textShadow: "0 2px 12px rgba(0,0,0,0.4)",
+              textShadow: TEXT_SHADOW_STRONG,
             }}
           >
             Choose Your Committee
@@ -81,11 +81,12 @@ export const CommitteesScene: React.FC = () => {
                   <div
                     style={{
                       color: COLORS.ice,
-                      fontSize: 15,
-                      fontWeight: 700,
+                      fontSize: 16,
+                      fontWeight: 800,
                       letterSpacing: "0.02em",
                       lineHeight: 1.15,
                       textAlign: "center",
+                      textShadow: TEXT_SHADOW_STRONG,
                     }}
                   >
                     {c.acronym}

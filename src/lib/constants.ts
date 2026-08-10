@@ -38,22 +38,28 @@ export const DURATION_IN_FRAMES = t(
 export const COLORS = {
   deepNavy: "#020e18",
   ink: "#071620",
-  glassBorder: "#1c648b",
-  ice: "rgba(173, 238, 254, 0.9)",
-  iceSoft: "rgba(173, 238, 254, 0.7)",
-  iceMuted: "rgba(173, 238, 254, 0.5)",
+  glassBorder: "rgba(173, 238, 254, 0.35)",
+  ice: "rgba(220, 248, 255, 0.98)",
+  iceSoft: "rgba(210, 245, 255, 0.95)",
+  iceMuted: "rgba(200, 240, 255, 0.85)",
   white: "#ffffff",
-  whiteSoft: "rgba(255, 255, 255, 0.85)",
-  whiteDim: "rgba(255, 255, 255, 0.55)",
-  glassGradA: "rgba(22, 113, 163, 0.38)",
-  glassGradB: "rgba(1, 149, 160, 0.28)",
-  glassLight: "rgba(255, 255, 255, 0.08)",
-  glassLightBorder: "rgba(255, 255, 255, 0.18)",
+  whiteSoft: "rgba(255, 255, 255, 0.96)",
+  whiteDim: "rgba(255, 255, 255, 0.78)",
+  /** More opaque frosted fills for readability */
+  glassGradA: "rgba(8, 48, 72, 0.72)",
+  glassGradB: "rgba(4, 70, 82, 0.68)",
+  glassLight: "rgba(255, 255, 255, 0.22)",
+  glassLightBorder: "rgba(255, 255, 255, 0.4)",
   tealOverlay: "rgba(2, 16, 28, 0.42)",
   notifGreen: "#6EE7B7",
   notifBlue: "#93C5FD",
   notifCoral: "#FCA5A5",
 } as const;
+
+/** Shared text shadow for contrast on teal / water */
+export const TEXT_SHADOW = "0 2px 10px rgba(0,0,0,0.55), 0 1px 2px rgba(0,0,0,0.4)";
+export const TEXT_SHADOW_STRONG =
+  "0 3px 16px rgba(0,0,0,0.65), 0 1px 3px rgba(0,0,0,0.5)";
 
 /** Equal safe zones — keep content centered for IG UI */
 export const SAFE = {

@@ -1,6 +1,6 @@
 import React from "react";
 import { useCurrentFrame, useVideoConfig } from "remotion";
-import { COLORS, FONT } from "../lib/constants";
+import { COLORS, FONT, TEXT_SHADOW_STRONG } from "../lib/constants";
 import { notificationDrop } from "../lib/motion";
 import { GlassPanel } from "./GlassPanel";
 
@@ -52,11 +52,12 @@ export const DueDateNotification: React.FC<Props> = ({
           <div
             style={{
               color: accent,
-              fontSize: 15,
-              fontWeight: 700,
+              fontSize: 16,
+              fontWeight: 800,
               letterSpacing: "0.12em",
               textTransform: "uppercase",
               marginBottom: 6,
+              textShadow: "0 1px 6px rgba(0,0,0,0.45)",
             }}
           >
             {label}
@@ -64,10 +65,11 @@ export const DueDateNotification: React.FC<Props> = ({
           <div
             style={{
               color: COLORS.white,
-              fontSize: 26,
-              fontWeight: 600,
+              fontSize: 27,
+              fontWeight: 700,
               lineHeight: 1.25,
               letterSpacing: "-0.02em",
+              textShadow: TEXT_SHADOW_STRONG,
             }}
           >
             {detail}

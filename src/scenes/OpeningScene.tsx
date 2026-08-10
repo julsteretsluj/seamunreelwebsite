@@ -1,6 +1,6 @@
 import React from "react";
 import { AbsoluteFill, Img, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
-import { COLORS, FONT, SAFE } from "../lib/constants";
+import { COLORS, FONT, SAFE, TEXT_SHADOW_STRONG } from "../lib/constants";
 import { BRAND } from "../lib/content";
 import { fadeUp, scaleFade } from "../lib/motion";
 import { GlassPanel, GlassPill } from "../components/GlassPanel";
@@ -72,7 +72,7 @@ export const OpeningScene: React.FC = () => {
               fontWeight: 800,
               letterSpacing: "0.04em",
               lineHeight: 1.05,
-              textShadow: "0 2px 14px rgba(0,0,0,0.45)",
+              textShadow: TEXT_SHADOW_STRONG,
             }}
           >
             {BRAND.title}

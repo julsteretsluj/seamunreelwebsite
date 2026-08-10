@@ -11,6 +11,7 @@ import {
   FONT,
   FPS,
   SAFE,
+  TEXT_SHADOW_STRONG,
 } from "../lib/constants";
 import { ALL_COMMITTEES } from "../lib/content";
 import { deckSwipe, fadeUpBlur, springPop } from "../lib/motion";
@@ -89,7 +90,7 @@ const SpotlightCard: React.FC<SpotlightCardProps> = ({ index }) => {
               fontWeight: 800,
               letterSpacing: "0.04em",
               lineHeight: 1,
-              textShadow: "0 2px 16px rgba(0,0,0,0.45)",
+              textShadow: TEXT_SHADOW_STRONG,
             }}
           >
             {c.acronym}
@@ -97,9 +98,10 @@ const SpotlightCard: React.FC<SpotlightCardProps> = ({ index }) => {
           <div
             style={{
               marginTop: 8,
-              color: COLORS.iceSoft,
-              fontSize: 22,
-              fontWeight: 500,
+              color: COLORS.ice,
+              fontSize: 23,
+              fontWeight: 600,
+              textShadow: TEXT_SHADOW_STRONG,
             }}
           >
             {c.name}
@@ -123,12 +125,13 @@ const SpotlightCard: React.FC<SpotlightCardProps> = ({ index }) => {
                 radius={18}
                 style={{
                   padding: "14px 20px",
-                  color: COLORS.whiteSoft,
-                  fontSize: 24,
-                  fontWeight: 600,
+                  color: COLORS.white,
+                  fontSize: 25,
+                  fontWeight: 700,
                   letterSpacing: "-0.01em",
                   lineHeight: 1.3,
                   textAlign: "center",
+                  textShadow: TEXT_SHADOW_STRONG,
                 }}
               >
                 {topic}
