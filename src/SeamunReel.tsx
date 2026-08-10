@@ -2,6 +2,7 @@ import React from "react";
 import { AbsoluteFill, Sequence } from "remotion";
 import { CinematicBackground } from "./components/CinematicBackground";
 import { PartnershipOverlay } from "./components/PartnershipOverlay";
+import { StatusBarOverlay } from "./components/StatusBarOverlay";
 import { SceneShell } from "./components/SceneShell";
 import { SCENES } from "./lib/constants";
 import { SIGNUPS } from "./lib/content";
@@ -21,6 +22,7 @@ export const SeamunReel: React.FC = () => {
     <AbsoluteFill style={{ backgroundColor: "#020e18" }}>
       <CinematicBackground />
 
+      <StatusBarOverlay />
       <PartnershipOverlay />
 
       <Sequence
