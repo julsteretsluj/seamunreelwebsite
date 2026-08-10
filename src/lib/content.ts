@@ -128,6 +128,8 @@ export const ALL_COMMITTEES: CommitteeSpotlight[] = [
     acronym: "WHO",
     name: "World Health Organization",
     logo: "assets/committee-logos/who.png",
+    featureArt: "assets/committees/who-heart.png",
+    featureArtLayout: "portrait",
     topics: [
       "Psychedelics for Trauma-Based Mental Health",
       "Pandemic Response & Recovery",
