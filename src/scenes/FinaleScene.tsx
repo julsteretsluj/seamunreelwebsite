@@ -130,16 +130,30 @@ export const FinaleScene: React.FC = () => {
             </GlassPill>
 
             <div style={qr}>
-              <Img
-                src={staticFile(BRAND.websiteQr)}
+              <div
                 style={{
                   width: 200,
                   height: 200,
-                  objectFit: "contain",
                   borderRadius: 22,
+                  overflow: "hidden",
+                  background: "#ffffff",
                   boxShadow: "0 8px 28px rgba(0,0,0,0.3)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
                 }}
-              />
+              >
+                <Img
+                  src={staticFile(BRAND.websiteQr)}
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    objectPosition: "center",
+                    display: "block",
+                  }}
+                />
+              </div>
             </div>
           </div>
 

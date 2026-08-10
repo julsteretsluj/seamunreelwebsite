@@ -119,46 +119,43 @@ export const SignupScene: React.FC<Props> = ({
           alignItems: "center",
         }}
       >
-        <div
-          style={{
-            ...qrPulse,
-            position: "relative",
-            width: 360,
-            height: 360,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
+        <div style={{ ...qrPulse, position: "relative" }}>
+          {/* Glow frame — inset keeps equal padding on all sides */}
           <div
             style={{
               position: "absolute",
-              left: "50%",
-              top: "50%",
-              width: 400,
-              height: 400,
-              marginLeft: -200,
-              marginTop: -200,
+              inset: -20,
               borderRadius: 36,
-              border: `2px solid ${data.accent}`,
+              border: `2.5px solid ${data.accent}`,
               opacity: Math.max(0, ring),
               boxShadow: `0 0 28px ${data.accent}55`,
+              pointerEvents: "none",
             }}
           />
-          <Img
-            src={staticFile(data.qr)}
+          <div
             style={{
-              position: "relative",
-              zIndex: 1,
               width: 360,
               height: 360,
-              objectFit: "contain",
-              objectPosition: "center",
               borderRadius: 28,
-              display: "block",
+              overflow: "hidden",
+              background: "#ffffff",
               boxShadow: "0 12px 40px rgba(0,0,0,0.35)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
             }}
-          />
+          >
+            <Img
+              src={staticFile(data.qr)}
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+                objectPosition: "center",
+                display: "block",
+              }}
+            />
+          </div>
         </div>
       </div>
 
