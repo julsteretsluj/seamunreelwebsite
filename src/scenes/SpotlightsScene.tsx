@@ -1,5 +1,5 @@
 import React from "react";
-import { AbsoluteFill, Img, Sequence, staticFile, useCurrentFrame } from "remotion";
+import { AbsoluteFill, Sequence, useCurrentFrame } from "remotion";
 import {
   COLORS,
   COMMITTEE_SPOTLIGHT_SECONDS,
@@ -10,6 +10,7 @@ import {
 import { ALL_COMMITTEES } from "../lib/content";
 import { fadeUp, scaleFade, swipeTransition } from "../lib/motion";
 import { GlassPanel } from "../components/GlassPanel";
+import { CommitteeLogo } from "../components/CommitteeLogo";
 
 const SLOT = Math.round(COMMITTEE_SPOTLIGHT_SECONDS * FPS); // 3s hold
 const TRANSITION = 10;
@@ -70,15 +71,7 @@ const SpotlightCard: React.FC<SpotlightCardProps> = ({ index }) => {
         }}
       >
         <div style={emblem}>
-          <Img
-            src={staticFile(c.logo)}
-            style={{
-              width: 220,
-              height: 220,
-              objectFit: "contain",
-              filter: "drop-shadow(0 10px 28px rgba(0,0,0,0.4))",
-            }}
-          />
+          <CommitteeLogo src={c.logo} size={200} pad={16} />
         </div>
 
         <div style={{ ...name, marginTop: 20 }}>

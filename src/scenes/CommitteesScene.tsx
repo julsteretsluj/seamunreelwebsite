@@ -1,10 +1,11 @@
 import React from "react";
-import { AbsoluteFill, Img, staticFile, useCurrentFrame } from "remotion";
+import { AbsoluteFill, useCurrentFrame } from "remotion";
 import { COLORS, FONT, SAFE } from "../lib/constants";
 import { ALL_COMMITTEES } from "../lib/content";
 import { fadeUp, scaleFade } from "../lib/motion";
 import { GlassPanel } from "../components/GlassPanel";
 import { PartnershipPill } from "../components/PartnershipPill";
+import { CommitteeLogo } from "../components/CommitteeLogo";
 
 /** Scene 2 — All 10 committees */
 export const CommitteesScene: React.FC = () => {
@@ -76,15 +77,7 @@ export const CommitteesScene: React.FC = () => {
                     width: "100%",
                   }}
                 >
-                  <Img
-                    src={staticFile(c.logo)}
-                    style={{
-                      width: 118,
-                      height: 118,
-                      objectFit: "contain",
-                      filter: "drop-shadow(0 4px 12px rgba(0,0,0,0.35))",
-                    }}
-                  />
+                  <CommitteeLogo src={c.logo} size={108} pad={8} />
                   <div
                     style={{
                       color: COLORS.ice,
