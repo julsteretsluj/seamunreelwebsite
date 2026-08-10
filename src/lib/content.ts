@@ -66,6 +66,8 @@ export const ALL_COMMITTEES: CommitteeSpotlight[] = [
     acronym: "UNSC",
     name: "Security Council (Crisis)",
     logo: "assets/committee-logos/unsc.png",
+    featureArt: "assets/committees/unsc-dove.png",
+    featureArtLayout: "portrait",
     topics: ["Standardizing Peacekeeping & Medical Support"],
   },
   {
