@@ -238,7 +238,16 @@ const SpotlightCard: React.FC<SpotlightCardProps> = ({ index }) => {
             textAlign: "center",
           }}
         >
-          <div style={emblem}>
+          <div
+            style={{
+              ...emblem,
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              width: "100%",
+              transformOrigin: "center center",
+            }}
+          >
             <CommitteeLogo src={c.logo} size={200} pad={16} />
           </div>
 

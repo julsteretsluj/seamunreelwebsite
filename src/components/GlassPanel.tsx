@@ -58,7 +58,16 @@ export const GlassPanel: React.FC<GlassPanelProps> = ({
           pointerEvents: "none",
         }}
       />
-      <div style={{ position: "relative", zIndex: 1 }}>{children}</div>
+      <div
+        style={{
+          position: "relative",
+          zIndex: 1,
+          width: "100%",
+          boxSizing: "border-box",
+        }}
+      >
+        {children}
+      </div>
     </div>
   );
 };

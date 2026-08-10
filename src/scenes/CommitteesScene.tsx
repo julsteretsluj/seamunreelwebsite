@@ -33,6 +33,8 @@ export const CommitteesScene: React.FC = () => {
           style={{
             padding: "32px 28px 36px",
             textAlign: "center",
+            width: "100%",
+            boxSizing: "border-box",
           }}
         >
           <div
@@ -43,6 +45,8 @@ export const CommitteesScene: React.FC = () => {
               letterSpacing: "-0.02em",
               marginBottom: 28,
               textShadow: TEXT_SHADOW_STRONG,
+              textAlign: "center",
+              width: "100%",
             }}
           >
             Choose Your Committee
@@ -51,10 +55,12 @@ export const CommitteesScene: React.FC = () => {
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(5, 1fr)",
-              gap: "18px 10px",
+              gridTemplateColumns: "repeat(5, minmax(0, 1fr))",
+              gap: "18px 8px",
               justifyItems: "center",
-              alignItems: "center",
+              alignItems: "start",
+              width: "100%",
+              margin: "0 auto",
             }}
           >
             {ALL_COMMITTEES.map((c, i) => {
@@ -70,13 +76,15 @@ export const CommitteesScene: React.FC = () => {
                     justifyContent: "flex-start",
                     gap: 8,
                     width: "100%",
+                    maxWidth: 140,
+                    transformOrigin: "center center",
                   }}
                 >
                   <CommitteeLogo src={c.logo} size={108} pad={8} />
                   <div
                     style={{
                       color: COLORS.ice,
-                      fontSize: 16,
+                      fontSize: 15,
                       fontWeight: 800,
                       letterSpacing: "0.02em",
                       lineHeight: 1.15,

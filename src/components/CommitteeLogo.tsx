@@ -20,7 +20,6 @@ export const CommitteeLogo: React.FC<Props> = ({
   return (
     <div
       style={{
-        position: "relative",
         width: disc,
         height: disc,
         borderRadius: "50%",
@@ -29,21 +28,24 @@ export const CommitteeLogo: React.FC<Props> = ({
           "0 4px 18px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.9)",
         flexShrink: 0,
         overflow: "hidden",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        marginLeft: "auto",
+        marginRight: "auto",
         ...style,
       }}
     >
       <Img
         src={staticFile(src)}
         style={{
-          position: "absolute",
-          left: "50%",
-          top: "50%",
           width: size,
           height: size,
-          transform: "translate(-50%, -50%)",
+          display: "block",
           objectFit: "contain",
-          objectPosition: "center",
-          filter: "drop-shadow(0 2px 6px rgba(0,0,0,0.2))",
+          objectPosition: "center center",
+          // keep shadow soft without shifting perceived center
+          filter: "drop-shadow(0 1px 4px rgba(0,0,0,0.18))",
         }}
       />
     </div>
