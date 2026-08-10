@@ -61,9 +61,9 @@ export const TEXT_SHADOW = "0 2px 10px rgba(0,0,0,0.55), 0 1px 2px rgba(0,0,0,0.
 export const TEXT_SHADOW_STRONG =
   "0 3px 16px rgba(0,0,0,0.65), 0 1px 3px rgba(0,0,0,0.5)";
 
-/** Equal safe zones — keep content centered for IG UI */
+/** Equal safe zones — keep content centered for IG UI; top clears partnership pill */
 export const SAFE = {
-  top: 120,
+  top: 148,
   bottom: 160,
   side: 64,
 } as const;

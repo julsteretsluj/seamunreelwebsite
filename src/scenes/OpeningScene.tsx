@@ -4,14 +4,12 @@ import { COLORS, FONT, SAFE, TEXT_SHADOW_STRONG } from "../lib/constants";
 import { BRAND } from "../lib/content";
 import { fadeUp, scaleFade } from "../lib/motion";
 import { GlassPanel, GlassPill } from "../components/GlassPanel";
-import { PartnershipPill } from "../components/PartnershipPill";
 
 /** Scene 1 — Opening */
 export const OpeningScene: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
-  const partner = fadeUp(frame, fps, 1, 20);
   const brand = fadeUp(frame, fps, 3, 28);
   const brandScale = scaleFade(frame, fps, 3, 0.94);
   const meta = fadeUp(frame, fps, 9, 24);
@@ -32,10 +30,6 @@ export const OpeningScene: React.FC = () => {
         fontFamily: FONT,
       }}
     >
-      <div style={{ ...partner, marginBottom: 24 }}>
-        <PartnershipPill />
-      </div>
-
       <div
         style={{
           width: "100%",

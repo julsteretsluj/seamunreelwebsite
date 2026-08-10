@@ -4,7 +4,6 @@ import { COLORS, FONT, SAFE, TEXT_SHADOW_STRONG } from "../lib/constants";
 import { ALL_COMMITTEES } from "../lib/content";
 import { fadeUp, springPop } from "../lib/motion";
 import { GlassPanel } from "../components/GlassPanel";
-import { PartnershipPill } from "../components/PartnershipPill";
 import { CommitteeLogo } from "../components/CommitteeLogo";
 
 /** Scene 2 — All 10 committees */
@@ -12,7 +11,6 @@ export const CommitteesScene: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const title = fadeUp(frame, fps, 2, 28);
-  const partner = fadeUp(frame, fps, 0, 16);
 
   return (
     <AbsoluteFill
@@ -29,10 +27,6 @@ export const CommitteesScene: React.FC = () => {
         fontFamily: FONT,
       }}
     >
-      <div style={{ ...partner, marginBottom: 28 }}>
-        <PartnershipPill />
-      </div>
-
       <div style={{ ...title, width: "100%", maxWidth: 920 }}>
         <GlassPanel
           radius={30}

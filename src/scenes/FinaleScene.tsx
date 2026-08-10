@@ -4,7 +4,6 @@ import { COLORS, FONT, SAFE, TEXT_SHADOW_STRONG } from "../lib/constants";
 import { BRAND } from "../lib/content";
 import { fadeUp, scaleFade, subtleScale } from "../lib/motion";
 import { GlassPanel, GlassPill } from "../components/GlassPanel";
-import { PartnershipPill } from "../components/PartnershipPill";
 
 /** Scene 7 — Final CTA (18.5–22s) */
 export const FinaleScene: React.FC = () => {
@@ -15,10 +14,9 @@ export const FinaleScene: React.FC = () => {
   const brandScale = scaleFade(frame, fps, 1, 0.94);
   const tag = fadeUp(frame, fps, 5, 18);
   const meta = fadeUp(frame, fps, 10, 16);
-  const partner = fadeUp(frame, fps, 14, 16);
-  const web = fadeUp(frame, fps, 18, 16);
-  const qr = scaleFade(frame, fps, 22, 0.9);
-  const cta = fadeUp(frame, fps, 28, 18);
+  const web = fadeUp(frame, fps, 14, 16);
+  const qr = scaleFade(frame, fps, 18, 0.9);
+  const cta = fadeUp(frame, fps, 24, 18);
   const grow = subtleScale(frame, 20, durationInFrames - 1);
 
   return (
@@ -105,10 +103,6 @@ export const FinaleScene: React.FC = () => {
               <br />
               {BRAND.locationCaps}
             </div>
-          </div>
-
-          <div style={{ ...partner, marginTop: 28 }}>
-            <PartnershipPill />
           </div>
 
           <div
