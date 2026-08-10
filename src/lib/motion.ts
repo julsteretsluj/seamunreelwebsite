@@ -53,28 +53,14 @@ export function fadeUp(
   return { opacity, transform: `translateY(${translateY}px)` };
 }
 
-/** Fade + rise + blur clear — bouncy entrance */
+/** Fade + rise — no text blur (keeps copy sharp) */
 export function fadeUpBlur(
   frame: number,
   fps: number,
   start: number,
   distance = 36,
 ) {
-  const { local, progress } = springProgress(frame, fps, start, IOS_BOUNCE);
-  const opacity = interpolate(local, [0, 5], [0, 1], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-  });
-  const translateY = interpolate(progress, [0, 1], [distance, 0]);
-  const blur = interpolate(local, [0, 10], [8, 0], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-  });
-  return {
-    opacity,
-    filter: `blur(${blur}px)`,
-    transform: `translateY(${translateY}px)`,
-  };
+  return fadeUp(frame, fps, start, distance);
 }
 
 /** Icon / emblem scale-in with bounce */
@@ -207,7 +193,7 @@ export function deckSwipe(
       extrapolateRight: "clamp",
       easing: easeInOut,
     });
-    const blur = interpolate(frame, [start, end], [0, 6], {
+    const blur = interpolate(frame, [start, end], [0, 4], {
       extrapolateLeft: "clamp",
       extrapolateRight: "clamp",
       easing: easeInOut,
@@ -221,21 +207,17 @@ export function deckSwipe(
   }
 
   const { local, progress } = springProgress(frame, fps, start, IOS_BOUNCE_SOFT);
-  const opacity = interpolate(local, [0, 5], [0, 1], {
+  const opacity = interpolate(local, [0, 4], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
-  const x = interpolate(progress, [0, 1], [180, 0]);
-  const y = interpolate(progress, [0, 1], [28, 0]);
-  const scale = interpolate(progress, [0, 1], [0.88, 1]);
-  const rot = interpolate(progress, [0, 1], [9, 0]);
-  const blur = interpolate(local, [0, 12], [8, 0], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-  });
+  const x = interpolate(progress, [0, 1], [160, 0]);
+  const y = interpolate(progress, [0, 1], [22, 0]);
+  const scale = interpolate(progress, [0, 1], [0.9, 1]);
+  const rot = interpolate(progress, [0, 1], [7, 0]);
   return {
     opacity,
-    filter: `blur(${blur}px)`,
+    // No blur on enter — keeps committee text sharp
     transform: `perspective(1200px) translate(${x}px, ${y}px) scale(${scale}) rotateY(${rot}deg)`,
     transformOrigin: "center center",
   };
@@ -252,16 +234,12 @@ export function sceneGate(
   exitFrames = 14,
 ): CSSProperties {
   const { local, progress } = springProgress(frame, fps, 0, IOS_BOUNCE_SOFT);
-  const enterOpacity = interpolate(local, [0, 6], [0, 1], {
+  const enterOpacity = interpolate(local, [0, 5], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
-  const enterY = interpolate(progress, [0, 1], [52, 0]);
-  const enterScale = interpolate(progress, [0, 1], [0.92, 1]);
-  const enterBlur = interpolate(local, [0, 12], [10, 0], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-  });
+  const enterY = interpolate(progress, [0, 1], [40, 0]);
+  const enterScale = interpolate(progress, [0, 1], [0.94, 1]);
 
   const exitStart = durationInFrames - exitFrames;
   const exitOpacity = interpolate(
@@ -277,7 +255,7 @@ export function sceneGate(
   const exitY = interpolate(
     frame,
     [exitStart, durationInFrames - 1],
-    [0, -36],
+    [0, -28],
     {
       extrapolateLeft: "clamp",
       extrapolateRight: "clamp",
@@ -287,17 +265,7 @@ export function sceneGate(
   const exitScale = interpolate(
     frame,
     [exitStart, durationInFrames - 1],
-    [1, 1.04],
-    {
-      extrapolateLeft: "clamp",
-      extrapolateRight: "clamp",
-      easing: easeInOut,
-    },
-  );
-  const exitBlur = interpolate(
-    frame,
-    [exitStart, durationInFrames - 1],
-    [0, 8],
+    [1, 1.03],
     {
       extrapolateLeft: "clamp",
       extrapolateRight: "clamp",
@@ -308,7 +276,7 @@ export function sceneGate(
   const inExit = frame >= exitStart;
   return {
     opacity: inExit ? exitOpacity : enterOpacity,
-    filter: `blur(${inExit ? exitBlur : enterBlur}px)`,
+    // Avoid filter blur on scenes — softens all text
     transform: inExit
       ? `translateY(${exitY}px) scale(${exitScale})`
       : `translateY(${enterY}px) scale(${enterScale})`,
