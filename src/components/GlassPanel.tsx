@@ -22,25 +22,43 @@ export const GlassPanel: React.FC<GlassPanelProps> = ({
   return (
     <div
       style={{
+        position: "relative",
         borderRadius: radius,
-        background: isPanel
-          ? `linear-gradient(135deg, ${COLORS.glassGradA} 0%, ${COLORS.glassGradB} 100%)`
-          : "rgba(255, 255, 255, 0.28)",
+        overflow: "hidden",
+        isolation: "isolate",
         border: isPanel
           ? `1.5px solid ${COLORS.glassBorder}`
           : `1px solid ${COLORS.glassLightBorder}`,
         boxShadow: isPanel
-          ? "0 12px 40px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.22)"
-          : "0 4px 16px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.35)",
-        backdropFilter: isPanel ? "blur(28px) saturate(1.25)" : "blur(18px)",
-        WebkitBackdropFilter: isPanel
-          ? "blur(28px) saturate(1.25)"
-          : "blur(18px)",
+          ? "0 12px 40px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.25)"
+          : "0 4px 16px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.4)",
         fontFamily: FONT,
         ...style,
+        // Ensure background/blur aren't overridden away by callers
+        background: isPanel
+          ? `linear-gradient(135deg, ${COLORS.glassGradA} 0%, ${COLORS.glassGradB} 55%, rgba(2, 28, 42, 0.9) 100%)`
+          : "rgba(255, 255, 255, 0.34)",
+        backdropFilter: isPanel
+          ? "blur(40px) saturate(1.35) brightness(0.92)"
+          : "blur(22px) saturate(1.2)",
+        WebkitBackdropFilter: isPanel
+          ? "blur(40px) saturate(1.35) brightness(0.92)"
+          : "blur(22px) saturate(1.2)",
       }}
     >
-      {children}
+      {/* Soft frost overlay — softens water detail behind text */}
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          borderRadius: radius,
+          background: isPanel
+            ? "rgba(255,255,255,0.08)"
+            : "rgba(255,255,255,0.12)",
+          pointerEvents: "none",
+        }}
+      />
+      <div style={{ position: "relative", zIndex: 1 }}>{children}</div>
     </div>
   );
 };
@@ -58,15 +76,15 @@ export const GlassPill: React.FC<PillProps> = ({ children, style }) => (
       gap: 10,
       borderRadius: 999,
       padding: "10px 18px",
-      background: "rgba(255, 255, 255, 0.22)",
+      background: "rgba(8, 40, 58, 0.75)",
       border: `1px solid ${COLORS.glassLightBorder}`,
-      backdropFilter: "blur(16px)",
-      WebkitBackdropFilter: "blur(16px)",
+      backdropFilter: "blur(20px)",
+      WebkitBackdropFilter: "blur(20px)",
       color: COLORS.white,
       fontFamily: FONT,
       fontSize: 22,
-      fontWeight: 600,
-      textShadow: "0 1px 6px rgba(0,0,0,0.45)",
+      fontWeight: 700,
+      textShadow: "0 1px 6px rgba(0,0,0,0.5)",
       ...style,
     }}
   >

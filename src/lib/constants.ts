@@ -45,11 +45,11 @@ export const COLORS = {
   white: "#ffffff",
   whiteSoft: "rgba(255, 255, 255, 0.96)",
   whiteDim: "rgba(255, 255, 255, 0.78)",
-  /** More opaque frosted fills for readability */
-  glassGradA: "rgba(8, 48, 72, 0.72)",
-  glassGradB: "rgba(4, 70, 82, 0.68)",
-  glassLight: "rgba(255, 255, 255, 0.22)",
-  glassLightBorder: "rgba(255, 255, 255, 0.4)",
+  /** Opaque frosted fills for readability (Remotion-friendly) */
+  glassGradA: "rgba(5, 36, 56, 0.88)",
+  glassGradB: "rgba(3, 55, 68, 0.86)",
+  glassLight: "rgba(255, 255, 255, 0.32)",
+  glassLightBorder: "rgba(255, 255, 255, 0.45)",
   tealOverlay: "rgba(2, 16, 28, 0.42)",
   notifGreen: "#6EE7B7",
   notifBlue: "#93C5FD",
