@@ -3,25 +3,24 @@ export const WIDTH = 1080;
 export const HEIGHT = 1920;
 export const FPS = 30;
 
-/** ~3s per committee spotlight so topics are readable */
+/** ~3s per committee — topics fully on screen for ~2s after entrance */
 export const COMMITTEE_SPOTLIGHT_SECONDS = 3;
 export const COMMITTEE_COUNT = 10;
 export const SPOTLIGHTS_DURATION_SECONDS =
-  COMMITTEE_SPOTLIGHT_SECONDS * COMMITTEE_COUNT; // 30s
+  COMMITTEE_SPOTLIGHT_SECONDS * COMMITTEE_COUNT;
 
 /**
- * Scene timeline (seconds)
- * Opening 2.2 + Committees 2.8 + Spotlights 30 + Team 2.5
- * + Delegate 2.3 + Chair 2 + Advisor 1.7 + Finale 2.5 ≈ 46s
+ * Scene lengths sized so each screen has ~2s+ of readable hold
+ * after the last element finishes entering.
  */
-const OPENING_S = 2.2;
-const COMMITTEES_S = 2.8;
+const OPENING_S = 4;
+const COMMITTEES_S = 4;
 const SPOTLIGHTS_S = SPOTLIGHTS_DURATION_SECONDS;
-const TEAM_S = 2.5;
-const DELEGATE_S = 2.3;
-const CHAIR_S = 2;
-const ADVISOR_S = 1.7;
-const FINALE_S = 2.5;
+const TEAM_S = 4.5;
+const DELEGATE_S = 4.2;
+const CHAIR_S = 4.2;
+const ADVISOR_S = 4.2;
+const FINALE_S = 5;
 
 const t = (s: number) => Math.round(s * FPS);
 

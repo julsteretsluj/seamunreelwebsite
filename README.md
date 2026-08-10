@@ -23,14 +23,14 @@ Output: `out/seamun-i-2027-reel.mp4`
 
 | Scene | Time | Content |
 |-------|------|---------|
-| Opening | 0–2.2s | Branding, dates, location, D-PREP |
-| Committees | 2.2–5s | All 10 committee emblems |
-| Spotlights | 5–35s | ~3s per committee with topics |
-| Our Team | 35–37.5s | Full secretariat |
-| Delegate | 37.5–39.8s | Due-date notification + QR |
-| Chair | 39.8–41.8s | Due-date notification + QR |
-| Advisor | 41.8–43.5s | Due-date notification + QR |
-| Finale | 43.5–46s | CTA + seamun.com QR |
+| Opening | 0–4s | Branding, dates, location, D-PREP |
+| Committees | 4–8s | All 10 committee emblems |
+| Spotlights | 8–38s | ~3s per committee with topics |
+| Our Team | 38–42.5s | Full secretariat |
+| Delegate | 42.5–46.7s | Due-date notification + QR |
+| Chair | 46.7–50.9s | Due-date notification + QR |
+| Advisor | 50.9–55.1s | Due-date notification + QR |
+| Finale | 55.1–60.1s | CTA + seamun.com QR |
 
 ## Editable layers
 

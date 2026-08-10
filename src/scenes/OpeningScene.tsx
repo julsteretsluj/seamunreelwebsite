@@ -11,10 +11,10 @@ export const OpeningScene: React.FC = () => {
   const frame = useCurrentFrame();
 
   const partner = fadeUp(frame, 2, 12, 24);
-  const brand = fadeUp(frame, 8, 14, 42);
-  const brandScale = scaleFade(frame, 8, 14, 0.96);
-  const meta = fadeUp(frame, 20, 14, 36);
-  const pills = fadeUp(frame, 28, 14, 30);
+  const brand = fadeUp(frame, 6, 12, 36);
+  const brandScale = scaleFade(frame, 6, 12, 0.96);
+  const meta = fadeUp(frame, 16, 12, 30);
+  const pills = fadeUp(frame, 24, 12, 24);
 
   return (
     <AbsoluteFill

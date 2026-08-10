@@ -62,7 +62,7 @@ export const CommitteesScene: React.FC = () => {
             }}
           >
             {ALL_COMMITTEES.map((c, i) => {
-              const start = 6 + i * 2;
+              const start = 4 + i * 2;
               const anim = scaleFade(frame, start, 10, 0.9);
               return (
                 <div

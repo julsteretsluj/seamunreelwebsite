@@ -18,10 +18,10 @@ export const SignupScene: React.FC<Props> = ({ data, swipeIn = true }) => {
   const enter = swipeIn
     ? swipeTransition(frame, 0, 12, "in", 80)
     : fadeUp(frame, 0, 12, 28);
-  const headline = fadeUp(frame, 8, 12, 36);
-  const notifStart = 16;
-  const qr = scaleFade(frame, 34, 14, 0.94);
-  const support = fadeUp(frame, 48, 12, 24);
+  const headline = fadeUp(frame, 4, 10, 28);
+  const notifStart = 10;
+  const qr = scaleFade(frame, 22, 12, 0.94);
+  const support = fadeUp(frame, 34, 10, 20);
 
   return (
     <AbsoluteFill

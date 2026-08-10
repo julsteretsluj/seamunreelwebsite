@@ -57,7 +57,7 @@ export const TeamScene: React.FC = () => {
             }}
           >
             {TEAM.map((member, i) => {
-              const anim = scaleFade(frame, 4 + i, 8, 0.9);
+              const anim = scaleFade(frame, 2 + i, 8, 0.9);
               return (
                 <div
                   key={member.name}
