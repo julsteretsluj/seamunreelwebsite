@@ -3,25 +3,25 @@ import { Easing, interpolate, spring } from "remotion";
 
 const easeInOut = Easing.bezier(0.4, 0, 0.2, 1);
 
-/** Apple-like UI spring — visible bounce, then settle */
+/** Apple-like UI spring — snappy bounce, settles fast */
 export const IOS_BOUNCE = {
-  damping: 10.5,
-  stiffness: 230,
-  mass: 0.72,
+  damping: 12,
+  stiffness: 280,
+  mass: 0.58,
 } as const;
 
 /** Softer bounce for large panels / scene gates */
 export const IOS_BOUNCE_SOFT = {
-  damping: 12,
-  stiffness: 190,
-  mass: 0.85,
+  damping: 13,
+  stiffness: 240,
+  mass: 0.7,
 } as const;
 
 /** Snappy bounce for icons, QR, avatars */
 export const IOS_BOUNCE_POP = {
-  damping: 9.5,
-  stiffness: 260,
-  mass: 0.62,
+  damping: 11,
+  stiffness: 320,
+  mass: 0.5,
 } as const;
 
 function springProgress(

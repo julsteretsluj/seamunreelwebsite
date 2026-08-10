@@ -11,8 +11,8 @@ import { CommitteeLogo } from "../components/CommitteeLogo";
 export const CommitteesScene: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
-  const title = fadeUp(frame, fps, 4, 36);
-  const partner = fadeUp(frame, fps, 0, 20);
+  const title = fadeUp(frame, fps, 2, 28);
+  const partner = fadeUp(frame, fps, 0, 16);
 
   return (
     <AbsoluteFill
@@ -64,7 +64,7 @@ export const CommitteesScene: React.FC = () => {
             }}
           >
             {ALL_COMMITTEES.map((c, i) => {
-              const anim = springPop(frame, fps, 4 + i * 2, 0.82);
+              const anim = springPop(frame, fps, 2 + i, 0.84);
               return (
                 <div
                   key={c.id}

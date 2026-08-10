@@ -11,14 +11,14 @@ export const FinaleScene: React.FC = () => {
   const frame = useCurrentFrame();
   const { durationInFrames, fps } = useVideoConfig();
 
-  const brand = fadeUp(frame, fps, 2, 32);
-  const brandScale = scaleFade(frame, fps, 2, 0.94);
-  const tag = fadeUp(frame, fps, 10, 24);
-  const meta = fadeUp(frame, fps, 18, 22);
-  const partner = fadeUp(frame, fps, 26, 20);
-  const web = fadeUp(frame, fps, 34, 20);
-  const qr = scaleFade(frame, fps, 40, 0.9);
-  const cta = fadeUp(frame, fps, 48, 24);
+  const brand = fadeUp(frame, fps, 1, 24);
+  const brandScale = scaleFade(frame, fps, 1, 0.94);
+  const tag = fadeUp(frame, fps, 5, 18);
+  const meta = fadeUp(frame, fps, 10, 16);
+  const partner = fadeUp(frame, fps, 14, 16);
+  const web = fadeUp(frame, fps, 18, 16);
+  const qr = scaleFade(frame, fps, 22, 0.9);
+  const cta = fadeUp(frame, fps, 28, 18);
   const grow = subtleScale(frame, 20, durationInFrames - 1);
 
   return (

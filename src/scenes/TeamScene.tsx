@@ -9,7 +9,7 @@ import { GlassPanel } from "../components/GlassPanel";
 export const TeamScene: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
-  const title = fadeUp(frame, fps, 2, 32);
+  const title = fadeUp(frame, fps, 1, 24);
 
   return (
     <AbsoluteFill
@@ -58,7 +58,7 @@ export const TeamScene: React.FC = () => {
             }}
           >
             {TEAM.map((member, i) => {
-              const anim = springPop(frame, fps, 2 + i, 0.82);
+              const anim = springPop(frame, fps, 1 + Math.floor(i * 0.7), 0.84);
               return (
                 <div
                   key={member.name}

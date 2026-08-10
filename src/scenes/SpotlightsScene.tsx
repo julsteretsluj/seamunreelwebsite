@@ -18,7 +18,7 @@ import { GlassPanel } from "../components/GlassPanel";
 import { CommitteeLogo } from "../components/CommitteeLogo";
 
 const SLOT = Math.round(COMMITTEE_SPOTLIGHT_SECONDS * FPS);
-const TRANSITION = 14;
+const TRANSITION = 10;
 
 type SpotlightCardProps = {
   index: number;
@@ -31,13 +31,13 @@ const SpotlightCard: React.FC<SpotlightCardProps> = ({ index }) => {
   const isFirst = index === 0;
 
   const enter = isFirst
-    ? fadeUpBlur(frame, fps, 2, 40)
+    ? fadeUpBlur(frame, fps, 1, 32)
     : deckSwipe(frame, fps, 0, TRANSITION, "in");
 
-  const emblem = springPop(frame, fps, isFirst ? 6 : 4, 0.82);
-  const name = fadeUpBlur(frame, fps, isFirst ? 12 : 10, 28);
-  const t1 = fadeUpBlur(frame, fps, isFirst ? 20 : 16, 22);
-  const t2 = fadeUpBlur(frame, fps, isFirst ? 28 : 24, 22);
+  const emblem = springPop(frame, fps, isFirst ? 3 : 2, 0.84);
+  const name = fadeUpBlur(frame, fps, isFirst ? 7 : 5, 22);
+  const t1 = fadeUpBlur(frame, fps, isFirst ? 12 : 9, 18);
+  const t2 = fadeUpBlur(frame, fps, isFirst ? 16 : 13, 18);
 
   const exitStart = SLOT - TRANSITION - 1;
   const shouldExit = index < ALL_COMMITTEES.length - 1;

@@ -26,7 +26,7 @@ export const SeamunReel: React.FC = () => {
         name="01-Opening"
         layout="none"
       >
-        <SceneShell enterFrames={18} exitFrames={12}>
+        <SceneShell enterFrames={10} exitFrames={8}>
           <OpeningScene />
         </SceneShell>
       </Sequence>
@@ -37,7 +37,7 @@ export const SeamunReel: React.FC = () => {
         name="02-Committees"
         layout="none"
       >
-        <SceneShell enterFrames={14} exitFrames={12}>
+        <SceneShell enterFrames={8} exitFrames={8}>
           <CommitteesScene />
         </SceneShell>
       </Sequence>
@@ -48,7 +48,7 @@ export const SeamunReel: React.FC = () => {
         name="03-Spotlights"
         layout="none"
       >
-        <SceneShell enterFrames={10} exitFrames={12}>
+        <SceneShell enterFrames={6} exitFrames={8}>
           <SpotlightsScene />
         </SceneShell>
       </Sequence>
@@ -59,7 +59,7 @@ export const SeamunReel: React.FC = () => {
         name="04-Our-Team"
         layout="none"
       >
-        <SceneShell enterFrames={14} exitFrames={12}>
+        <SceneShell enterFrames={8} exitFrames={8}>
           <TeamScene />
         </SceneShell>
       </Sequence>
@@ -70,7 +70,7 @@ export const SeamunReel: React.FC = () => {
         name="05-Delegate-SignUps"
         layout="none"
       >
-        <SceneShell enterFrames={14} exitFrames={12}>
+        <SceneShell enterFrames={8} exitFrames={8}>
           <SignupScene data={SIGNUPS[0]} swipeIn={false} />
         </SceneShell>
       </Sequence>
@@ -81,7 +81,7 @@ export const SeamunReel: React.FC = () => {
         name="06-Chair-Applications"
         layout="none"
       >
-        <SceneShell enterFrames={14} exitFrames={12}>
+        <SceneShell enterFrames={8} exitFrames={8}>
           <SignupScene data={SIGNUPS[1]} swipeIn />
         </SceneShell>
       </Sequence>
@@ -92,7 +92,7 @@ export const SeamunReel: React.FC = () => {
         name="07-Advisor-SignUps"
         layout="none"
       >
-        <SceneShell enterFrames={14} exitFrames={12}>
+        <SceneShell enterFrames={8} exitFrames={8}>
           <SignupScene data={SIGNUPS[2]} swipeIn />
         </SceneShell>
       </Sequence>
@@ -103,7 +103,7 @@ export const SeamunReel: React.FC = () => {
         name="08-Finale-CTA"
         layout="none"
       >
-        <SceneShell enterFrames={16} exitFrames={8}>
+        <SceneShell enterFrames={10} exitFrames={6}>
           <FinaleScene />
         </SceneShell>
       </Sequence>
