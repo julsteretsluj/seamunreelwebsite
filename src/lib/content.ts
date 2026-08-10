@@ -7,6 +7,8 @@ export type CommitteeSpotlight = {
   topics: string[];
   /** Optional feature art shown in the spotlight scene */
   featureArt?: string;
+  /** Portrait (tall figure) vs landscape (card / banner) feature framing */
+  featureArtLayout?: "portrait" | "landscape";
 };
 
 /** All 10 committees — official topics shortened for video readability */
@@ -16,6 +18,8 @@ export const ALL_COMMITTEES: CommitteeSpotlight[] = [
     acronym: "ECOSOC",
     name: "Economic and Social Council",
     logo: "assets/committee-logos/ecosoc.png",
+    featureArt: "assets/committees/ecosoc-card.png",
+    featureArtLayout: "landscape",
     topics: [
       "Universal Basic Income & Economic Stability",
       "Military Spending to Public Health",
@@ -81,6 +85,7 @@ export const ALL_COMMITTEES: CommitteeSpotlight[] = [
     name: "Fantasy World Committee (Crisis)",
     logo: "assets/committee-logos/fwc.png",
     featureArt: "assets/committees/fwc-demogorgon.png",
+    featureArtLayout: "portrait",
     topics: [
       "Psychic Child Experimentation & Protection",
       "Weaponization of the Human Mind",

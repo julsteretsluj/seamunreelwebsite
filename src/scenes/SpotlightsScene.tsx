@@ -32,7 +32,9 @@ const SpotlightCard: React.FC<SpotlightCardProps> = ({ index }) => {
   const { fps } = useVideoConfig();
   const c = ALL_COMMITTEES[index];
   const isFirst = index === 0;
-  const isFwc = c.id === "fwc" && Boolean(c.featureArt);
+  const hasFeature = Boolean(c.featureArt);
+  const isLandscape = c.featureArtLayout === "landscape";
+  const compact = hasFeature;
 
   const enter = isFirst
     ? fadeUpBlur(frame, fps, 1, 32)
@@ -75,14 +77,14 @@ const SpotlightCard: React.FC<SpotlightCardProps> = ({ index }) => {
         style={{
           width: "100%",
           maxWidth: 920,
-          padding: isFwc ? "28px 32px 40px" : "40px 36px 44px",
+          padding: compact ? "28px 32px 40px" : "40px 36px 44px",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
           textAlign: "center",
         }}
       >
-        {isFwc ? (
+        {hasFeature ? (
           <div
             style={{
               ...feature,
@@ -90,33 +92,46 @@ const SpotlightCard: React.FC<SpotlightCardProps> = ({ index }) => {
               width: "100%",
               display: "flex",
               justifyContent: "center",
-              marginBottom: 8,
+              marginBottom: isLandscape ? 12 : 8,
             }}
           >
-            {/* Soft halo so dark figure reads on teal water */}
-            <div
-              style={{
-                position: "absolute",
-                width: 340,
-                height: 340,
-                borderRadius: "50%",
-                background:
-                  "radial-gradient(circle, rgba(255,255,255,0.28) 0%, rgba(255,255,255,0.08) 45%, transparent 70%)",
-                top: "50%",
-                left: "50%",
-                transform: "translate(-50%, -48%)",
-                pointerEvents: "none",
-              }}
-            />
+            {!isLandscape ? (
+              <div
+                style={{
+                  position: "absolute",
+                  width: 340,
+                  height: 340,
+                  borderRadius: "50%",
+                  background:
+                    "radial-gradient(circle, rgba(255,255,255,0.28) 0%, rgba(255,255,255,0.08) 45%, transparent 70%)",
+                  top: "50%",
+                  left: "50%",
+                  transform: "translate(-50%, -48%)",
+                  pointerEvents: "none",
+                }}
+              />
+            ) : null}
             <Img
               src={staticFile(c.featureArt!)}
-              style={{
-                width: 300,
-                height: 380,
-                objectFit: "contain",
-                position: "relative",
-                filter: "drop-shadow(0 12px 28px rgba(0,0,0,0.55))",
-              }}
+              style={
+                isLandscape
+                  ? {
+                      width: "100%",
+                      maxWidth: 820,
+                      height: 280,
+                      objectFit: "contain",
+                      position: "relative",
+                      borderRadius: 18,
+                      filter: "drop-shadow(0 14px 32px rgba(0,0,0,0.45))",
+                    }
+                  : {
+                      width: 300,
+                      height: 380,
+                      objectFit: "contain",
+                      position: "relative",
+                      filter: "drop-shadow(0 12px 28px rgba(0,0,0,0.55))",
+                    }
+              }
             />
           </div>
         ) : (
@@ -128,14 +143,14 @@ const SpotlightCard: React.FC<SpotlightCardProps> = ({ index }) => {
         <div
           style={{
             ...name,
-            marginTop: isFwc ? 4 : 20,
+            marginTop: compact ? 4 : 20,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
             gap: 8,
           }}
         >
-          {isFwc ? (
+          {hasFeature ? (
             <div style={emblem}>
               <CommitteeLogo src={c.logo} size={72} pad={8} />
             </div>
@@ -143,7 +158,7 @@ const SpotlightCard: React.FC<SpotlightCardProps> = ({ index }) => {
           <div
             style={{
               color: COLORS.white,
-              fontSize: isFwc ? 52 : 58,
+              fontSize: compact ? 52 : 58,
               fontWeight: 800,
               letterSpacing: "0.04em",
               lineHeight: 1,
@@ -156,7 +171,7 @@ const SpotlightCard: React.FC<SpotlightCardProps> = ({ index }) => {
             style={{
               marginTop: 4,
               color: COLORS.ice,
-              fontSize: isFwc ? 21 : 23,
+              fontSize: compact ? 21 : 23,
               fontWeight: 600,
               textShadow: TEXT_SHADOW_STRONG,
             }}
@@ -167,7 +182,7 @@ const SpotlightCard: React.FC<SpotlightCardProps> = ({ index }) => {
 
         <div
           style={{
-            marginTop: isFwc ? 18 : 28,
+            marginTop: compact ? 18 : 28,
             width: "100%",
             display: "flex",
             flexDirection: "column",
@@ -183,7 +198,7 @@ const SpotlightCard: React.FC<SpotlightCardProps> = ({ index }) => {
                 style={{
                   padding: "14px 20px",
                   color: COLORS.white,
-                  fontSize: isFwc ? 23 : 25,
+                  fontSize: compact ? 23 : 25,
                   fontWeight: 700,
                   letterSpacing: "-0.01em",
                   lineHeight: 1.3,
