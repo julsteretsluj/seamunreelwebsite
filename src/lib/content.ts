@@ -30,6 +30,8 @@ export const ALL_COMMITTEES: CommitteeSpotlight[] = [
     acronym: "Press",
     name: "Press Corps",
     logo: "assets/committee-logos/press.png",
+    featureArt: "assets/committees/press-camera.png",
+    featureArtLayout: "portrait",
     topics: ["Journalistic Ethics in Public Health Reporting"],
   },
   {
