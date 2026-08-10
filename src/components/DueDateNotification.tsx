@@ -26,30 +26,18 @@ export const DueDateNotification: React.FC<Props> = ({
 
   return (
     <div style={{ ...motion, ...style }}>
-      <GlassPanel radius={22} style={{ padding: "20px 24px" }}>
+      <GlassPanel radius={22} style={{ padding: "20px 26px" }}>
         <div
           style={{
-            position: "relative",
-            paddingLeft: 18,
+            borderLeft: `5px solid ${accent}`,
+            paddingLeft: 16,
+            boxShadow: `inset 5px 0 12px -8px ${accent}66`,
             fontFamily: FONT,
             textAlign: "left",
             width: "100%",
             boxSizing: "border-box",
           }}
         >
-          {/* Accent bar — matches text block height exactly */}
-          <div
-            style={{
-              position: "absolute",
-              left: 0,
-              top: 2,
-              bottom: 2,
-              width: 5,
-              borderRadius: 3,
-              background: accent,
-              boxShadow: `0 0 12px ${accent}66`,
-            }}
-          />
           <div
             style={{
               color: accent,
