@@ -1,93 +1,91 @@
 import type { CSSProperties } from "react";
 import { Easing, interpolate, spring } from "remotion";
 
-const easeOut = Easing.bezier(0.16, 1, 0.3, 1);
 const easeInOut = Easing.bezier(0.4, 0, 0.2, 1);
-const easeExpo = Easing.bezier(0.16, 1, 0.3, 1);
 
-/** Soft fade + upward settle (text / cards) */
-export function fadeUp(
-  frame: number,
-  start: number,
-  duration = 14,
-  distance = 40,
-) {
-  const opacity = interpolate(frame, [start, start + duration], [0, 1], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-    easing: easeOut,
-  });
-  const translateY = interpolate(
-    frame,
-    [start, start + duration],
-    [distance, 0],
-    {
-      extrapolateLeft: "clamp",
-      extrapolateRight: "clamp",
-      easing: easeOut,
-    },
-  );
-  return { opacity, transform: `translateY(${translateY}px)` };
-}
+/** Apple-like UI spring — visible bounce, then settle */
+export const IOS_BOUNCE = {
+  damping: 10.5,
+  stiffness: 230,
+  mass: 0.72,
+} as const;
 
-/** Fade + rise + slight blur clear — premium entrance */
-export function fadeUpBlur(
-  frame: number,
-  start: number,
-  duration = 14,
-  distance = 36,
-) {
-  const base = fadeUp(frame, start, duration, distance);
-  const blur = interpolate(frame, [start, start + duration], [8, 0], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-    easing: easeOut,
-  });
-  return {
-    ...base,
-    filter: `blur(${blur}px)`,
-  };
-}
+/** Softer bounce for large panels / scene gates */
+export const IOS_BOUNCE_SOFT = {
+  damping: 12,
+  stiffness: 190,
+  mass: 0.85,
+} as const;
 
-/** Icon / emblem scale-in */
-export function scaleFade(
-  frame: number,
-  start: number,
-  duration = 12,
-  fromScale = 0.92,
-) {
-  const opacity = interpolate(frame, [start, start + duration], [0, 1], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-    easing: easeOut,
-  });
-  const scale = interpolate(
-    frame,
-    [start, start + duration],
-    [fromScale, 1],
-    {
-      extrapolateLeft: "clamp",
-      extrapolateRight: "clamp",
-      easing: easeOut,
-    },
-  );
-  return { opacity, transform: `scale(${scale})` };
-}
+/** Snappy bounce for icons, QR, avatars */
+export const IOS_BOUNCE_POP = {
+  damping: 9.5,
+  stiffness: 260,
+  mass: 0.62,
+} as const;
 
-/** Spring pop for logos / QR — snappy but restrained */
-export function springPop(
+function springProgress(
   frame: number,
   fps: number,
   start: number,
-  fromScale = 0.86,
+  config: typeof IOS_BOUNCE = IOS_BOUNCE,
 ) {
   const local = Math.max(0, frame - start);
-  const progress = spring({
-    frame: local,
-    fps,
-    config: { damping: 14, stiffness: 180, mass: 0.65 },
+  return {
+    local,
+    progress: spring({ frame: local, fps, config }),
+  };
+}
+
+/** Soft fade + upward settle with iOS bounce overshoot */
+export function fadeUp(
+  frame: number,
+  fps: number,
+  start: number,
+  distance = 40,
+) {
+  const { local, progress } = springProgress(frame, fps, start, IOS_BOUNCE);
+  const opacity = interpolate(local, [0, 5], [0, 1], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
   });
-  const opacity = interpolate(local, [0, 6], [0, 1], {
+  const translateY = interpolate(progress, [0, 1], [distance, 0]);
+  return { opacity, transform: `translateY(${translateY}px)` };
+}
+
+/** Fade + rise + blur clear — bouncy entrance */
+export function fadeUpBlur(
+  frame: number,
+  fps: number,
+  start: number,
+  distance = 36,
+) {
+  const { local, progress } = springProgress(frame, fps, start, IOS_BOUNCE);
+  const opacity = interpolate(local, [0, 5], [0, 1], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+  const translateY = interpolate(progress, [0, 1], [distance, 0]);
+  const blur = interpolate(local, [0, 10], [8, 0], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+  return {
+    opacity,
+    filter: `blur(${blur}px)`,
+    transform: `translateY(${translateY}px)`,
+  };
+}
+
+/** Icon / emblem scale-in with bounce */
+export function scaleFade(
+  frame: number,
+  fps: number,
+  start: number,
+  fromScale = 0.92,
+) {
+  const { local, progress } = springProgress(frame, fps, start, IOS_BOUNCE_POP);
+  const opacity = interpolate(local, [0, 5], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
@@ -95,39 +93,55 @@ export function springPop(
   return { opacity, transform: `scale(${scale})` };
 }
 
-/** iOS-style notification drop with tiny overshoot */
+/** Spring pop for logos / QR — classic iOS bounce */
+export function springPop(
+  frame: number,
+  fps: number,
+  start: number,
+  fromScale = 0.86,
+) {
+  const { local, progress } = springProgress(frame, fps, start, IOS_BOUNCE_POP);
+  const opacity = interpolate(local, [0, 4], [0, 1], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+  const scale = interpolate(progress, [0, 1], [fromScale, 1]);
+  return { opacity, transform: `scale(${scale})` };
+}
+
+/** iOS notification banner — drop in with bounce */
 export function notificationDrop(
   frame: number,
   fps: number,
   start: number,
 ) {
-  const local = Math.max(0, frame - start);
-  const progress = spring({
-    frame: local,
-    fps,
-    config: { damping: 15, stiffness: 170, mass: 0.65 },
+  const { local, progress } = springProgress(frame, fps, start, {
+    damping: 11,
+    stiffness: 240,
+    mass: 0.7,
   });
-  const opacity = interpolate(local, [0, 7], [0, 1], {
+  const opacity = interpolate(local, [0, 5], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
-  const translateY = interpolate(progress, [0, 1], [-70, 0]);
-  const scale = interpolate(progress, [0, 1], [0.96, 1]);
+  const translateY = interpolate(progress, [0, 1], [-72, 0]);
+  const scale = interpolate(progress, [0, 1], [0.94, 1]);
   return {
     opacity,
     transform: `translateY(${translateY}px) scale(${scale})`,
   };
 }
 
-/** Classic horizontal swipe (signup screens) */
+/** Horizontal swipe — bounce settle on enter */
 export function swipeTransition(
   frame: number,
+  fps: number,
   start: number,
-  duration = 14,
   direction: "out" | "in" = "in",
   distance = 90,
-) {
+): CSSProperties {
   if (direction === "out") {
+    const duration = 12;
     const opacity = interpolate(frame, [start, start + duration], [1, 0], {
       extrapolateLeft: "clamp",
       extrapolateRight: "clamp",
@@ -145,30 +159,23 @@ export function swipeTransition(
     });
     return { opacity, transform: `translateX(${x}px) scale(${scale})` };
   }
-  const opacity = interpolate(frame, [start, start + duration], [0, 1], {
+
+  const { local, progress } = springProgress(frame, fps, start, IOS_BOUNCE);
+  const opacity = interpolate(local, [0, 5], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
-    easing: easeExpo,
   });
-  const x = interpolate(frame, [start, start + duration], [distance, 0], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-    easing: easeExpo,
-  });
-  const scale = interpolate(frame, [start, start + duration], [0.94, 1], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-    easing: easeExpo,
-  });
+  const x = interpolate(progress, [0, 1], [distance, 0]);
+  const scale = interpolate(progress, [0, 1], [0.92, 1]);
   return { opacity, transform: `translateX(${x}px) scale(${scale})` };
 }
 
 /**
- * Perspective “card deck” swipe for committee spotlights.
- * Outgoing: drifts left, shrinks, tilts; Incoming: rises from right with depth.
+ * Perspective card deck swipe — bounce on settle (enter).
  */
 export function deckSwipe(
   frame: number,
+  fps: number,
   start: number,
   duration: number,
   direction: "in" | "out",
@@ -213,35 +220,18 @@ export function deckSwipe(
     };
   }
 
-  const opacity = interpolate(frame, [start, end], [0, 1], {
+  const { local, progress } = springProgress(frame, fps, start, IOS_BOUNCE_SOFT);
+  const opacity = interpolate(local, [0, 5], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
-    easing: easeExpo,
   });
-  const x = interpolate(frame, [start, end], [180, 0], {
+  const x = interpolate(progress, [0, 1], [180, 0]);
+  const y = interpolate(progress, [0, 1], [28, 0]);
+  const scale = interpolate(progress, [0, 1], [0.88, 1]);
+  const rot = interpolate(progress, [0, 1], [9, 0]);
+  const blur = interpolate(local, [0, 12], [8, 0], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
-    easing: easeExpo,
-  });
-  const y = interpolate(frame, [start, end], [28, 0], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-    easing: easeExpo,
-  });
-  const scale = interpolate(frame, [start, end], [0.88, 1], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-    easing: easeExpo,
-  });
-  const rot = interpolate(frame, [start, end], [9, 0], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-    easing: easeExpo,
-  });
-  const blur = interpolate(frame, [start, end], [8, 0], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-    easing: easeExpo,
   });
   return {
     opacity,
@@ -252,34 +242,25 @@ export function deckSwipe(
 }
 
 /**
- * Major scene enter/exit — scale + fade + vertical drift.
- * Uses local frame within a Sequence and the sequence duration.
+ * Major scene enter/exit — bouncy enter, smooth exit.
  */
 export function sceneGate(
   frame: number,
+  fps: number,
   durationInFrames: number,
   enterFrames = 16,
   exitFrames = 14,
 ): CSSProperties {
-  const enterOpacity = interpolate(frame, [0, enterFrames], [0, 1], {
+  const { local, progress } = springProgress(frame, fps, 0, IOS_BOUNCE_SOFT);
+  const enterOpacity = interpolate(local, [0, 6], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
-    easing: easeExpo,
   });
-  const enterY = interpolate(frame, [0, enterFrames], [48, 0], {
+  const enterY = interpolate(progress, [0, 1], [52, 0]);
+  const enterScale = interpolate(progress, [0, 1], [0.92, 1]);
+  const enterBlur = interpolate(local, [0, 12], [10, 0], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
-    easing: easeExpo,
-  });
-  const enterScale = interpolate(frame, [0, enterFrames], [0.94, 1], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-    easing: easeExpo,
-  });
-  const enterBlur = interpolate(frame, [0, enterFrames], [10, 0], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-    easing: easeExpo,
   });
 
   const exitStart = durationInFrames - exitFrames;

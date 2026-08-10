@@ -23,12 +23,12 @@ export const SignupScene: React.FC<Props> = ({ data, swipeIn = true }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const enter = swipeIn
-    ? swipeTransition(frame, 0, 14, "in", 120)
-    : fadeUpBlur(frame, 0, 14, 40);
-  const headline = fadeUpBlur(frame, 4, 11, 30);
+    ? swipeTransition(frame, fps, 0, "in", 120)
+    : fadeUpBlur(frame, fps, 0, 40);
+  const headline = fadeUpBlur(frame, fps, 4, 30);
   const notifStart = 10;
-  const qr = springPop(frame, fps, 22, 0.9);
-  const support = fadeUp(frame, 34, 10, 20);
+  const qr = springPop(frame, fps, 22, 0.88);
+  const support = fadeUp(frame, fps, 34, 20);
 
   return (
     <AbsoluteFill

@@ -8,15 +8,21 @@ type Props = {
   exitFrames?: number;
 };
 
-/** Wraps a scene Sequence with cinematic enter / exit motion */
+/** Wraps a scene Sequence with iOS-bounce enter / smooth exit */
 export const SceneShell: React.FC<Props> = ({
   children,
   enterFrames = 16,
   exitFrames = 14,
 }) => {
   const frame = useCurrentFrame();
-  const { durationInFrames } = useVideoConfig();
-  const gate = sceneGate(frame, durationInFrames, enterFrames, exitFrames);
+  const { durationInFrames, fps } = useVideoConfig();
+  const gate = sceneGate(
+    frame,
+    fps,
+    durationInFrames,
+    enterFrames,
+    exitFrames,
+  );
 
   return (
     <AbsoluteFill style={{ ...gate, willChange: "transform, opacity, filter" }}>

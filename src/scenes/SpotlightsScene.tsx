@@ -31,18 +31,18 @@ const SpotlightCard: React.FC<SpotlightCardProps> = ({ index }) => {
   const isFirst = index === 0;
 
   const enter = isFirst
-    ? fadeUpBlur(frame, 2, 12, 40)
-    : deckSwipe(frame, 0, TRANSITION, "in");
+    ? fadeUpBlur(frame, fps, 2, 40)
+    : deckSwipe(frame, fps, 0, TRANSITION, "in");
 
-  const emblem = springPop(frame, fps, isFirst ? 6 : 4, 0.84);
-  const name = fadeUpBlur(frame, isFirst ? 12 : 10, 11, 28);
-  const t1 = fadeUpBlur(frame, isFirst ? 20 : 16, 11, 22);
-  const t2 = fadeUpBlur(frame, isFirst ? 28 : 24, 11, 22);
+  const emblem = springPop(frame, fps, isFirst ? 6 : 4, 0.82);
+  const name = fadeUpBlur(frame, fps, isFirst ? 12 : 10, 28);
+  const t1 = fadeUpBlur(frame, fps, isFirst ? 20 : 16, 22);
+  const t2 = fadeUpBlur(frame, fps, isFirst ? 28 : 24, 22);
 
   const exitStart = SLOT - TRANSITION - 1;
   const shouldExit = index < ALL_COMMITTEES.length - 1;
   const exit = shouldExit
-    ? deckSwipe(frame, exitStart, TRANSITION, "out")
+    ? deckSwipe(frame, fps, exitStart, TRANSITION, "out")
     : { opacity: 1, transform: "none", filter: "none" };
 
   const inExit = frame >= exitStart && shouldExit;

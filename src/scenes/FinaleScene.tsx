@@ -9,16 +9,16 @@ import { PartnershipPill } from "../components/PartnershipPill";
 /** Scene 7 — Final CTA (18.5–22s) */
 export const FinaleScene: React.FC = () => {
   const frame = useCurrentFrame();
-  const { durationInFrames } = useVideoConfig();
+  const { durationInFrames, fps } = useVideoConfig();
 
-  const brand = fadeUp(frame, 2, 12, 32);
-  const brandScale = scaleFade(frame, 2, 12, 0.96);
-  const tag = fadeUp(frame, 10, 10, 24);
-  const meta = fadeUp(frame, 18, 10, 22);
-  const partner = fadeUp(frame, 26, 10, 20);
-  const web = fadeUp(frame, 34, 10, 20);
-  const qr = scaleFade(frame, 40, 12, 0.94);
-  const cta = fadeUp(frame, 48, 12, 24);
+  const brand = fadeUp(frame, fps, 2, 32);
+  const brandScale = scaleFade(frame, fps, 2, 0.94);
+  const tag = fadeUp(frame, fps, 10, 24);
+  const meta = fadeUp(frame, fps, 18, 22);
+  const partner = fadeUp(frame, fps, 26, 20);
+  const web = fadeUp(frame, fps, 34, 20);
+  const qr = scaleFade(frame, fps, 40, 0.9);
+  const cta = fadeUp(frame, fps, 48, 24);
   const grow = subtleScale(frame, 20, durationInFrames - 1);
 
   return (

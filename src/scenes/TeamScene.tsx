@@ -9,7 +9,7 @@ import { GlassPanel } from "../components/GlassPanel";
 export const TeamScene: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
-  const title = fadeUp(frame, 2, 12, 32);
+  const title = fadeUp(frame, fps, 2, 32);
 
   return (
     <AbsoluteFill

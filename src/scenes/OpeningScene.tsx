@@ -1,20 +1,21 @@
 import React from "react";
-import { AbsoluteFill, Img, staticFile, useCurrentFrame } from "remotion";
+import { AbsoluteFill, Img, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
 import { COLORS, FONT, SAFE } from "../lib/constants";
 import { BRAND } from "../lib/content";
 import { fadeUp, scaleFade } from "../lib/motion";
 import { GlassPanel, GlassPill } from "../components/GlassPanel";
 import { PartnershipPill } from "../components/PartnershipPill";
 
-/** Scene 1 — Opening (0–2.5s) */
+/** Scene 1 — Opening */
 export const OpeningScene: React.FC = () => {
   const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
 
-  const partner = fadeUp(frame, 2, 12, 24);
-  const brand = fadeUp(frame, 6, 12, 36);
-  const brandScale = scaleFade(frame, 6, 12, 0.96);
-  const meta = fadeUp(frame, 16, 12, 30);
-  const pills = fadeUp(frame, 24, 12, 24);
+  const partner = fadeUp(frame, fps, 2, 24);
+  const brand = fadeUp(frame, fps, 6, 36);
+  const brandScale = scaleFade(frame, fps, 6, 0.94);
+  const meta = fadeUp(frame, fps, 16, 30);
+  const pills = fadeUp(frame, fps, 24, 24);
 
   return (
     <AbsoluteFill

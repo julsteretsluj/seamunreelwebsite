@@ -11,8 +11,8 @@ import { CommitteeLogo } from "../components/CommitteeLogo";
 export const CommitteesScene: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
-  const title = fadeUp(frame, 4, 12, 36);
-  const partner = fadeUp(frame, 0, 10, 20);
+  const title = fadeUp(frame, fps, 4, 36);
+  const partner = fadeUp(frame, fps, 0, 20);
 
   return (
     <AbsoluteFill
