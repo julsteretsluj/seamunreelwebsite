@@ -54,6 +54,8 @@ export const ALL_COMMITTEES: CommitteeSpotlight[] = [
     acronym: "UNODC",
     name: "UN Office on Drugs & Crime",
     logo: "assets/committee-logos/unodc.png",
+    featureArt: "assets/committees/unodc-capsule.png",
+    featureArtLayout: "portrait",
     topics: [
       "Alternatives to Punishment for Personal Drug Use",
       "Inter-generational Impact of Addiction",
